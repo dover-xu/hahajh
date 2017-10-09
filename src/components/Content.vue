@@ -171,7 +171,7 @@
 
 </style>
 <script>
-  /* eslint-disable indent,quotes */
+  /* eslint-disable indent,quotes,no-eval */
   export default {
     data: function () {
       return {
@@ -200,13 +200,12 @@
       }
     },
     created: function () {
-      console.log('aaaaa')
       var url = "http://localhost:8008/index-hot"
       var this_ = this
       this_.$http.get(url).then(
         function (data) {
-          this_.note_list = data.body.note_list
           console.log(data.body.note_list)
+          this_.note_list.push(data.body.note_list)
       }, function (response) {
         console.info(response)
       })

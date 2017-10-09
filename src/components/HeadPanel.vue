@@ -14,9 +14,9 @@
       </div>
       <div>
         <ul class="nav navbar-nav top-left">
-          <li style="float:left" v-for="(d, index) in tab_list" v-bind:class="{active:(tab_current==index)}" v-on:click="tab_current = index" >
-            <router-link :to="d.addr" v-bind:style="{'background':(tab_current==index)?'#ac2925':''}">
-              {{d.name}}
+          <li style="float:left" v-for="(item, index) in tab_list" v-bind:class="{active:(tab_current==index)}" v-on:click="tab_current = index" >
+            <router-link :to="item.addr" v-bind:style="{'background':(tab_current==index)?'#ac2925':''}">
+              {{item.name}}
             </router-link>
           </li>
         </ul>
