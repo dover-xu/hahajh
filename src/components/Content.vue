@@ -38,7 +38,7 @@
                   <div class="u-bar">
                       <span class="pull-left">
                           <a href="#">
-                              <img :src="note.user.avatar.url" alt="头像无法显示" class="u-img">
+                              <img :src="note.user.avatar" alt="头像无法显示" class="u-img">
                           </a>
                       </span>
                     <span class="pull-left u-name">{{ note.user.username }}</span>
@@ -55,7 +55,7 @@
                       <!--{% if note.image %}-->
                       <div v-if="note.image">
                         <div class="content-img">
-                          <img :src="note.image.url" alt="图片无法显示"
+                          <img :src="note.image" alt="图片无法显示"
                                class="img-responsive center-block" width="100%">
                         </div>
                       </div>
@@ -144,21 +144,21 @@
             <div class="row">
               <div class="col-md-6">
                 1
-                <!--<a><img src="{{ note_jx.0.image.url }}" class="img-responsive"></a>-->
+                <!--<a><img src="{{ note_jx.0.image }}" class="img-responsive"></a>-->
               </div>
               <div class="col-md-6">
                 2
-                <!--<a><img src="{{ note_jx.1.image.url }}" class="img-responsive"></a>-->
+                <!--<a><img src="{{ note_jx.1.image }}" class="img-responsive"></a>-->
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 3
-                <!--<a><img src="{{ note_jx.2.image.url }}" class="img-responsive"></a>-->
+                <!--<a><img src="{{ note_jx.2.image }}" class="img-responsive"></a>-->
               </div>
               <div class="col-md-6">
                 4
-                <!--<a><img src="{{ note_jx.3.image.url }}" class="img-responsive"></a>-->
+                <!--<a><img src="{{ note_jx.3.image }}" class="img-responsive"></a>-->
               </div>
             </div>
           </div>
@@ -170,8 +170,12 @@
 <style scoped="scoped">
 
 </style>
+
 <script>
-  /* eslint-disable indent,quotes,no-eval */
+  /* eslint-disable indent,quotes,no-eval,camelcase */
+//  import {} from '/static/focus/js/jquery.pagination.js'
+  import $ from 'jquery'
+
   export default {
     data: function () {
       return {
@@ -179,16 +183,12 @@
         note_list1: [
           {
             id: '123456',
-            test: '哈哈，灭有内容',
+            text: '哈哈，灭有内容',
             user: {
-              avatar: {
-                url: '/xxx.jpg'
-              },
+              avatar: '/xxx.jpg',
               username: '为伊憔悴'
             },
-            image: {
-              url: '/yyy.jpg'
-            },
+            image: '/yyy.jpg',
             pub_date: '2017-10-6',
             P: true,
             T: false,
@@ -204,11 +204,26 @@
       var this_ = this
       this_.$http.get(url).then(
         function (data) {
-          console.log(data.body.note_list)
-          this_.note_list.push(data.body.note_list)
+          this_.note_list = eval(data.body.note_list)
+          this_.rows = eval(data.body.rows)
+          this_.page_id = eval(data.body.page_id)
+          console.log(this_.rows)
       }, function (response) {
         console.info(response)
       })
+    },
+    ready: function () {
+      var iPageSize = 5 // 设置每页显示帖子条数
+      $("#Pagination").pagination(this.rows, {
+        current_page: this.page_id - 1,
+        num_edge_entries: 1, // 边缘页数
+        num_display_entries: 3, // parseInt(rows / iPageSize), // 分页主体部分显示的分页条目数
+        // callback: pageselectCallbackack,
+        items_per_page: iPageSize, // 每页显示几项
+        show_if_single_page: true,
+        load_first_page: true
+      })
     }
   }
+
 </script>
