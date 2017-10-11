@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 
+// import '../static/bootstrap/css/bootstrap.min.css'
+
 Vue.config.productionTip = false
 
 // const VueResource = require('vue-resource')
