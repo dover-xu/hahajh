@@ -46,7 +46,7 @@ export default new Router({
     {
       path: '/jape',
       // name: 'ContentJape',
-      component: ContentPic,
+      component: ContentJape,
       children: [
         {path: '/jape/push', component: JapePush},
         {path: '/jape/new', component: JapeNew},

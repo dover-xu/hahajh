@@ -84,6 +84,7 @@
 
 <script>
   /* eslint-disable quotes,no-unused-vars */
+  import Bus from '@/components/bus.js'
 
   export default {
     name: "Content",
@@ -123,8 +124,14 @@
       }
     },
     created: function () {
+      Bus.$on('toggleEvent', target => {
+        console.log(this.$route.path)
+      })
 //      this.set_type_val(this.$route.path)
       this.set_tab_val(this.$route.path)
+    },
+    beforeDestroyed: function () {
+      Bus.$off('toggleEvent')
     }
   }
 </script>

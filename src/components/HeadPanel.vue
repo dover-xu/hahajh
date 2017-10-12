@@ -14,8 +14,8 @@
       </div>
       <div>
         <ul class="nav navbar-nav top-left">
-          <li style="float:left" v-for="(item, index) in tab_list" v-bind:class="{active:(tab_current==index)}" v-on:click="tab_current = index" >
-            <router-link :to="item.addr" v-bind:style="{'background':(tab_current==index)?'#ac2925':''}">
+          <li style="float:left" v-for="(item, index) in tab_list" :class="{active:(tab_current==index)}" @click.stop.prevent="toggle($event)" @click="tab_current = index" >
+            <router-link :to="item.addr" :style="{'background':(tab_current==index)?'#ac2925':''}" >
               {{item.name}}
             </router-link>
           </li>
@@ -90,6 +90,8 @@
 </style>
 <script>
   /* eslint-disable indent,quotes,no-unused-vars */
+  import Bus from '@/components/bus.js'
+
   export default {
     name: "HeadPanel",
     data: function () {
@@ -103,6 +105,10 @@
       }
     },
     methods: {
+      toggle: function (event) {
+        Bus.$emit('toggleEvent', event.target)
+        console.log('toggleEvent')
+      },
       set_tab_val: function (urlStr) {
         var this_ = this
         this.tab_list.forEach(function (item, index) {
