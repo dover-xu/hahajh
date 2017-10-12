@@ -97,8 +97,8 @@
         tab_current: 0,
         tab_list: [
           {name: '全部', addr: '/'},
-          {name: '图片', addr: '/pic'},
-          {name: '段子', addr: '/jape'}
+          {name: '图片', addr: '/pic/push'},
+          {name: '段子', addr: '/jape/push'}
         ]
       }
     },
@@ -106,8 +106,12 @@
       set_tab_val: function (urlStr) {
         var this_ = this
         this.tab_list.forEach(function (item, index) {
-          if (item.addr === urlStr) {
-            this_.$set(this_, 'tab_current', index)
+          var itemUrl = item.addr.split('/')
+          var curUrl = urlStr.split('/')
+          if (itemUrl.length > 1 && curUrl.length > 1) {
+            if (itemUrl[1] === curUrl[1]) {
+              this_.$set(this_, 'tab_current', index)
+            }
           }
         })
       }

@@ -24,30 +24,31 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Content',
+      // name: 'ContentAll',
       component: ContentAll,
       children: [
         {path: '/', component: AllPush},
+        {path: '/all/push', component: AllPush},
         {path: '/all/new', component: AllNew},
         {path: '/all/hot', component: AllHot}
       ]
     },
     {
       path: '/pic',
-      name: 'Content',
+      // name: 'ContentPic',
       component: ContentPic,
       children: [
-        {path: '/', component: PicPush},
+        {path: '/pic/push', component: PicPush},
         {path: '/pic/new', component: PicNew},
         {path: '/pic/hot', component: PicHot}
       ]
     },
     {
       path: '/jape',
-      name: 'Content',
-      component: ContentJape,
+      // name: 'ContentJape',
+      component: ContentPic,
       children: [
-        {path: '/', component: JapePush},
+        {path: '/jape/push', component: JapePush},
         {path: '/jape/new', component: JapeNew},
         {path: '/jape/hot', component: JapeHot}
       ]

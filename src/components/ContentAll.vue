@@ -22,14 +22,14 @@
                   {{item.name}}
                 </router-link>
               </li>
-              <!--<li class="active">-->
-                <!--<router-link to="/">推荐</router-link>-->
+              <!--<li v-bind:class="{active:(tab_current==0)}" v-on:click="tab_current = 0">-->
+                <!--<router-link :to="this.type " v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</router-link>-->
               <!--</li>-->
-              <!--<li>-->
-                <!--<router-link to="/all/new">最新</router-link>-->
+              <!--<li v-bind:class="{active:(tab_current==1)}" v-on:click="tab_current = 1">-->
+                <!--<router-link :to="'/' + this.type + '/push'" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</router-link>-->
               <!--</li>-->
-              <!--<li>-->
-                <!--<router-link to="/all/hot">最热</router-link>-->
+              <!--<li v-bind:class="{active:(tab_current==2)}" v-on:click="tab_current = 2">-->
+                <!--<router-link :to="'/' + this.type + '/push'" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">最热</router-link>-->
               <!--</li>-->
               <!--{% endblock %}-->
             </ul>
@@ -83,15 +83,16 @@
 </style>
 
 <script>
-  /* eslint-disable quotes */
+  /* eslint-disable quotes,no-unused-vars */
 
   export default {
     name: "Content",
     data: function () {
       return {
         tab_current: 0,
+//        type: 'all',
         tab_list: [
-          {name: '推荐', addr: '/'},
+          {name: '推荐', addr: '/all/push'},
           {name: '最新', addr: '/all/new'},
           {name: '最热', addr: '/all/hot'}
         ]
@@ -105,9 +106,24 @@
             this_.$set(this_, 'tab_current', index)
           }
         })
+      },
+      set_type_val: function (urlStr) {
+        var tp = urlStr.split('/')[1]
+        if (tp === 'pic') {
+          console.log(1111)
+          this.type = 'pic'
+        } else if (tp === 'jape') {
+          console.log(2222)
+          this.type = 'jape'
+        } else {
+          console.log(3333)
+          this.type = 'all'
+        }
+        console.log(this.type)
       }
     },
     created: function () {
+//      this.set_type_val(this.$route.path)
       this.set_tab_val(this.$route.path)
     }
   }

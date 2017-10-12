@@ -110,7 +110,7 @@
       }
     },
     created: function () {
-      var url = "http://localhost:8008/index-hot"
+      var url = "http://localhost:8008/contents?type=jape&sort=hot&page=" + String(this.page_id)
       var this_ = this
 
       axios.get(url).then(
@@ -118,7 +118,7 @@
           this_.note_list = data.data.note_list
           this_.rows = data.data.rows
           this_.page_id = data.data.page_id
-          console.log(this_.rows)
+//          console.log(this_.rows)
         }).catch(
         function (response) {
           console.info(response)

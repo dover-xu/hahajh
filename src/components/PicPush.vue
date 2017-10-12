@@ -110,7 +110,7 @@
       }
     },
     created: function () {
-      var url = "http://localhost:8008/index-hot"
+      var url = "http://localhost:8008/contents?type=jape&sort=hot&page=" + String(this.page_id)
       var this_ = this
 
       axios.get(url).then(
