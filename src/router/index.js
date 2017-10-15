@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
 import Vue from 'vue'
 import Router from 'vue-router'
-import ContentAll from '@/components/ContentAll'
-import ContentPic from '@/components/ContentPic'
-import ContentJape from '@/components/ContentJape'
+import Content from '@/components/Content'
 
 import AllPush from '@/components/AllPush'
 import AllNew from '@/components/AllNew'
@@ -25,7 +23,7 @@ export default new Router({
     {
       path: '/',
       // name: 'ContentAll',
-      component: ContentAll,
+      component: Content,
       children: [
         {path: '/', component: AllPush},
         {path: '/all/push', component: AllPush},
@@ -36,7 +34,7 @@ export default new Router({
     {
       path: '/pic',
       // name: 'ContentPic',
-      component: ContentPic,
+      component: Content,
       children: [
         {path: '/pic/push', component: PicPush},
         {path: '/pic/new', component: PicNew},
@@ -46,7 +44,7 @@ export default new Router({
     {
       path: '/jape',
       // name: 'ContentJape',
-      component: ContentJape,
+      component: Content,
       children: [
         {path: '/jape/push', component: JapePush},
         {path: '/jape/new', component: JapeNew},

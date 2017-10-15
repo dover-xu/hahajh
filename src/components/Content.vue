@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <!-- 中间 -->
   <div class="section">
     <div class="container">
@@ -17,30 +17,26 @@
           <div>
             <ul class="nav nav-tabs ">
               <!--{% block nav-tabs %}-->
-              <li style="float:left" v-for="(item, index) in tab_list" v-bind:class="{active:(tab_current==index)}" v-on:click="tab_current = index" >
-                <router-link :to="item.addr" v-bind:style="{'color':(tab_current==index)?'#ac483d':''}">
-                  {{item.name}}
-                </router-link>
+              <li :class="{active:(tab_current==0)}" v-on:click="tab_current = 0">
+                <router-link :to="addr_push" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</router-link>
               </li>
-              <!--<li v-bind:class="{active:(tab_current==0)}" v-on:click="tab_current = 0">-->
-                <!--<router-link :to="this.type " v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</router-link>-->
-              <!--</li>-->
-              <!--<li v-bind:class="{active:(tab_current==1)}" v-on:click="tab_current = 1">-->
-                <!--<router-link :to="'/' + this.type + '/push'" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</router-link>-->
-              <!--</li>-->
-              <!--<li v-bind:class="{active:(tab_current==2)}" v-on:click="tab_current = 2">-->
-                <!--<router-link :to="'/' + this.type + '/push'" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">最热</router-link>-->
-              <!--</li>-->
+              <li :class="{active:(tab_current==1)}" v-on:click="tab_current = 1">
+                <router-link :to="addr_new" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</router-link>
+              </li>
+              <li :class="{active:(tab_current==2)}" v-on:click="tab_current = 2">
+                <router-link :to="addr_hot" v-bind:style="{'color':(tab_current==2)?'#ac483d':''}">最热</router-link>
+              </li>
               <!--{% endblock %}-->
             </ul>
           </div>
           <router-view></router-view>
-          <div class="nav">
-            <!-- 分页导航 -->
-            <div class="pages">
-              <div id="Pagination"></div>
-            </div>
-          </div>
+          <Pagination :pageNo="5" :current="1"></Pagination>
+          <!--<div class="nav">-->
+            <!--&lt;!&ndash; 分页导航 &ndash;&gt;-->
+            <!--<div class="pages">-->
+              <!--<div id="Pagination"></div>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
         <!-- 右侧边栏 -->
         <div class="col-sm-3 hidden-xs main-right">
@@ -85,52 +81,58 @@
 <script>
   /* eslint-disable quotes,no-unused-vars */
   import Bus from '@/components/bus.js'
+  import Pagination from '@/components/Pagination'
 
   export default {
     name: "Content",
+    components: {Pagination},
     data: function () {
       return {
         tab_current: 0,
-//        type: 'all',
-        tab_list: [
-          {name: '推荐', addr: '/all/push'},
-          {name: '最新', addr: '/all/new'},
-          {name: '最热', addr: '/all/hot'}
-        ]
+        addr_push: '/all/push',
+        addr_new: '/all/new',
+        addr_hot: '/all/hot'
       }
     },
     methods: {
       set_tab_val: function (urlStr) {
-        var this_ = this
-        this.tab_list.forEach(function (item, index) {
-          if (item.addr === urlStr) {
-            this_.$set(this_, 'tab_current', index)
+        var curUrl = urlStr.split('/')
+        if (curUrl.length > 2) {
+          if (curUrl[2] === 'hot') {
+            this.tab_current = 2
+          } else if (curUrl[2] === 'new') {
+            this.tab_current = 1
+          } else {
+            this.tab_current = 0
           }
-        })
-      },
-      set_type_val: function (urlStr) {
-        var tp = urlStr.split('/')[1]
-        if (tp === 'pic') {
-          console.log(1111)
-          this.type = 'pic'
-        } else if (tp === 'jape') {
-          console.log(2222)
-          this.type = 'jape'
         } else {
-          console.log(3333)
-          this.type = 'all'
+          this.tab_current = 0
         }
-        console.log(this.type)
+      },
+      set_tab_addr: function (urlStr) {
+        var curUrl = urlStr.split('/')
+        var type = 'all'
+        if (curUrl.length > 1) {
+          type = String(curUrl[1])
+          if (type === '') {
+            type = 'all'
+          }
+        }
+        this.$set(this, 'addr_push', '/' + type + '/push')
+        this.$set(this, 'addr_new', '/' + type + '/new')
+        this.$set(this, 'addr_hot', '/' + type + '/hot')
       }
     },
     created: function () {
-      Bus.$on('toggleEvent', target => {
-        console.log(this.$route.path)
-      })
-//      this.set_type_val(this.$route.path)
+      this.set_tab_addr(this.$route.path)
       this.set_tab_val(this.$route.path)
+      var this_ = this
+      Bus.$on('toggleEvent', target => {
+        this_.set_tab_addr(this_.$route.path)
+        this_.set_tab_val(this_.$route.path)
+      })
     },
-    beforeDestroyed: function () {
+    destroyed: function () {
       Bus.$off('toggleEvent')
     }
   }

@@ -112,12 +112,17 @@
       set_tab_val: function (urlStr) {
         var this_ = this
         this.tab_list.forEach(function (item, index) {
-          var itemUrl = item.addr.split('/')
           var curUrl = urlStr.split('/')
-          if (itemUrl.length > 1 && curUrl.length > 1) {
-            if (itemUrl[1] === curUrl[1]) {
-              this_.$set(this_, 'tab_current', index)
+          if (curUrl.length > 2) {
+            if (curUrl[1] === 'jape') {
+              this_.tab_current = 2
+            } else if (curUrl[1] === 'pic') {
+              this_.tab_current = 1
+            } else {
+              this_.tab_current = 0
             }
+          } else {
+            this_.tab_current = 0
           }
         })
       }
