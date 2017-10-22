@@ -16,20 +16,21 @@
           <div>
             <ul class="nav nav-tabs ">
               <!--{% block nav-tabs %}-->
-              <li :class="{active:(tab_current==0)}" v-on:click="tab_current = 0">
-                <router-link :to="addr_push" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</router-link>
+              <li :class="{active:(tab_current==0)}" v-on:click.prevent="tab_sw(0)">
+                <a href="" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</a>
               </li>
-              <li :class="{active:(tab_current==1)}" v-on:click="tab_current = 1">
-                <router-link :to="addr_new" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</router-link>
+              <li :class="{active:(tab_current==1)}" v-on:click.prevent="tab_sw(1)">
+                <a href="" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</a>
               </li>
-              <li :class="{active:(tab_current==2)}" v-on:click="tab_current = 2">
-                <router-link :to="addr_hot" v-bind:style="{'color':(tab_current==2)?'#ac483d':''}">最热</router-link>
+              <li :class="{active:(tab_current==2)}" v-on:click.prevent="tab_sw(2)">
+                <a href="" v-bind:style="{'color':(tab_current==2)?'#ac483d':''}">最热</a>
               </li>
               <!--{% endblock %}-->
             </ul>
           </div>
-          <ContentDetail></ContentDetail>
-          <Pagination :pageNo="5" :current="1"></Pagination>
+          <ContentDetail :note_list="note_list" :total="total" :current="current"></ContentDetail>
+          <!--<Pagination :pageNo="7" :current="current" @current_sw="current_sw"></Pagination>-->
+          <Pagination :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
         </div>
         <SideBar></SideBar>
       </div>
@@ -46,54 +47,53 @@
   import ContentDetail from '@/components/ContentDetail'
   import SideBar from '@/components/SideBar'
   import Pagination from '@/components/Pagination'
+  import axios from 'axios'
 
   export default {
     name: "Content",
     components: {Pagination, ContentDetail, SideBar},
     data: function () {
       return {
+        tab_cur_head: 0,
         tab_current: 0,
-        addr_push: '/all/push',
-        addr_new: '/all/new',
-        addr_hot: '/all/hot'
+        note_list: [],
+        total: 1,
+        display: 5,
+        current: 1
       }
     },
     methods: {
-      set_tab_val: function (urlStr) {
-        var curUrl = urlStr.split('/')
-        if (curUrl.length > 2) {
-          if (curUrl[2] === 'hot') {
-            this.tab_current = 2
-          } else if (curUrl[2] === 'new') {
-            this.tab_current = 1
-          } else {
-            this.tab_current = 0
-          }
-        } else {
-          this.tab_current = 0
-        }
+      update_data: function () {
+        var url = `http://localhost:8008/contents?type=${this.tab_cur_head}&sort=${this.tab_current}&page=${this.current}&display=${this.display}`
+        var this_ = this
+
+        axios.get(url).then(
+          function (data) {
+            this_.note_list = data.data.note_list
+            this_.total = data.data.total
+            this_.display = data.data.display
+            this_.current = data.data.current
+          }).catch(
+          function (response) {
+            console.info(response)
+          })
       },
-      set_tab_addr: function (urlStr) {
-        var curUrl = urlStr.split('/')
-        var type = 'all'
-        if (curUrl.length > 1) {
-          type = String(curUrl[1])
-          if (type === '') {
-            type = 'all'
-          }
-        }
-        this.$set(this, 'addr_push', '/' + type + '/push')
-        this.$set(this, 'addr_new', '/' + type + '/new')
-        this.$set(this, 'addr_hot', '/' + type + '/hot')
+      tab_sw: function (index) {
+        this.tab_current = index
+        this.update_data()
+      },
+      page_change: function (cur) {
+        this.current = cur
+        this.update_data()
       }
     },
     created: function () {
-      this.set_tab_addr(this.$route.path)
-      this.set_tab_val(this.$route.path)
       var this_ = this
-      Bus.$on('toggleEvent', target => {
-        this_.set_tab_addr(this_.$route.path)
-        this_.set_tab_val(this_.$route.path)
+      this_.update_data()
+      Bus.$on('toggleEvent', (target, index) => {
+        this_.tab_cur_head = index
+        this_.update_data()
+        console.log(index)
       })
     },
     destroyed: function () {

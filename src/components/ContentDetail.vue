@@ -99,30 +99,29 @@
 <script>
   /* eslint-disable quotes */
 
-  import axios from 'axios'
-
   export default {
+    props: {
+      note_list: Array,
+      total: Number,
+      current: Number
+    },
     data: function () {
       return {
-        note_list: [],
-        rows: 1,
-        page_id: 1
       }
     },
     created: function () {
-      var url = "http://localhost:8008/contents?type=jape&sort=hot&page=" + String(this.page_id)
-      var this_ = this
-
-      axios.get(url).then(
-        function (data) {
-          this_.note_list = data.data.note_list
-          this_.rows = data.data.rows
-          this_.page_id = data.data.page_id
-//          console.log(this_.rows)
-        }).catch(
-        function (response) {
-          console.info(response)
-        })
+//      var url = "http://localhost:8008/contents?type=jape&sort=hot&page=" + String(this.page_id)
+//      var this_ = this
+//
+//      axios.get(url).then(
+//        function (data) {
+//          this_.note_list = data.data.note_list
+//          this_.rows = data.data.rows
+//          this_.page_id = data.data.page_id
+//        }).catch(
+//        function (response) {
+//          console.info(response)
+//        })
     }
   }
 </script>

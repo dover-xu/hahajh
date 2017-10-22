@@ -967,7 +967,7 @@ input.pub-trig:focus {
         margin: 0 20px;
     }
     .navbar {
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 }
 /*中等屏幕（桌面显示器）*/
@@ -976,7 +976,7 @@ input.pub-trig:focus {
         margin: 0 30px;
     }
     .navbar {
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 }
 /*大屏幕（大桌面显示器）*/
@@ -985,6 +985,6 @@ input.pub-trig:focus {
         margin: 0 40px;
     }
     .navbar {
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 }
