@@ -9,14 +9,18 @@
           <div class="login_title">
             登录
           </div>
-          <form action="" method="post">
+          <form @submit.prevent="submit">
             <!--{% csrf_token %}-->
-            <div class="form_text_error">{{ error }}</div>
-            <!--{% for field in form %}-->
+            <div class="form_text_error" v-if="error">{{ error }}</div>
+            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
-              {{ field }}
+              <input name="username" style="background-color: #1b6d85" type="text" placeholder="手机号/邮箱" v-model="user.username">
             </div>
-            <!--{% endfor %}-->
+            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
+            <div class="form_text_ipt">
+              <input name="password" type="password" placeholder="密码" v-model="user.password">
+            </div>
+            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_check_ipt">
               <div class="left check_left">
                 <label><input name="" style="box-shadow: none" type="checkbox"> 下次自动登录</label>
@@ -43,20 +47,41 @@
           </div>
         </div>
       </div>
+      <div class="logo"></div>
     </div>
   </div>
 </div>
 </template>
-<style>
+<style scoped="scoped">
+  @import 'http://127.0.0.1:8080/static/manager/css/common.css';
+  @import 'http://127.0.0.1:8080/static/manager/css/reset.css';
 
 </style>
 <script>
-    export default {
-      data: function () {
-        return {
-          error: 'this is error info',
-          field: 'this is field'
-        }
+  import axios from 'axios'
+
+  export default {
+    data: function () {
+      return {
+        user: {
+          username: '',
+          password: ''
+        },
+        error: 'this is error info',
+        field: 'this is field'
+      }
+    },
+    methods: {
+      submit: function () {
+        var formData = JSON.stringify(this.user)
+        axios.post(`${this.GLOBAL.backend}/manager/login/`, formData).then(
+          function (response) {
+            console.log('ddddddddd')
+          }).catch(
+          function (response) {
+            console.info(response)
+          })
       }
     }
+  }
 </script>

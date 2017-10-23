@@ -64,7 +64,7 @@
     },
     methods: {
       update_data: function () {
-        var url = `http://localhost:8008/contents?type=${this.tab_cur_head}&sort=${this.tab_current}&page=${this.current}&display=${this.display}`
+        var url = `${this.GLOBAL.backend}/contents?type=${this.tab_cur_head}&sort=${this.tab_current}&page=${this.current}&display=${this.display}`
         var this_ = this
 
         axios.get(url).then(

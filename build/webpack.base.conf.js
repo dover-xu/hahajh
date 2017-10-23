@@ -23,6 +23,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'backend': 'http://127.0.0.1:8008'
     }
   },
   module: {
