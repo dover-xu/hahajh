@@ -13,13 +13,24 @@
         </button>
       </div>
       <div>
-        <ul class="nav navbar-nav top-left">
-          <li style="float:left" v-for="(item, index) in tab_list" :class="{active:(tab_current==index)}" @click.stop.prevent="toggle($event)" @click="tab_current = index" >
-            <router-link :to="item.addr" :style="{'background':(tab_current==index)?'#ac2925':''}" >
-              {{item.name}}
-            </router-link>
-          </li>
-        </ul>
+        <div v-if="is_home_page">
+          <ul class="nav navbar-nav top-left">
+            <!--<li style="float:left" v-for="(item, index) in tab_list" :class="{active:(tab_current==index)}" @click.stop.prevent="toggle($event)" @click="tab_current = index" >-->
+              <!--<router-link :to="item.addr" :style="{'background':(tab_current==index)?'#ac2925':''}" >-->
+                <!--{{item.name}}-->
+              <!--</router-link>-->
+            <!--</li>-->
+              <li style="float:left" :class="{active:(tab_current==0)}" @click.prevent="toggle($event, 0)" >
+                <a href="" :style="{'background':(tab_current==0)?'#ac2925':''}" >全部</a>
+              </li>
+              <li style="float:left" :class="{active:(tab_current==1)}" @click.prevent="toggle($event, 1)" >
+                <a href="" :style="{'background':(tab_current==1)?'#ac2925':''}" >图片</a>
+              </li>
+              <li style="float:left" :class="{active:(tab_current==2)}" @click.prevent="toggle($event, 2)" >
+                <a href="" :style="{'background':(tab_current==2)?'#ac2925':''}" >段子</a>
+              </li>
+          </ul>
+        </div>
       </div>
       <div class="collapse navbar-collapse" id="navbar-ex-collapse">
         <ul class="nav navbar-nav navbar-right pull-right top-right">
@@ -39,15 +50,15 @@
           <li>
 
             <!--{% block login %}-->
-            <a href="/manager/login">
+            <router-link to="/login">
               <span class="glyphicon glyphicon-log-in"></span> 登陆
-            </a>
+            </router-link>
             <!--{% endblock %}-->
           </li>
           <li>
-            <a href="/manager/register">
+            <router-link to="/register">
               <span class="glyphicon glyphicon-user"></span> 注册
-            </a>
+            </router-link>
           </li>
           <!--{% endif %}-->
         </ul>
@@ -97,38 +108,45 @@
     data: function () {
       return {
         tab_current: 0,
-        tab_list: [
-          {name: '全部', addr: '/'},
-          {name: '图片', addr: '/pic/push'},
-          {name: '段子', addr: '/jape/push'}
-        ]
+        is_home_page: true
+//        tab_list: [
+//          {name: '全部', addr: '/'},
+//          {name: '图片', addr: '/pic/push'},
+//          {name: '段子', addr: '/jape/push'}
+//        ]
       }
     },
     methods: {
-      toggle: function (event) {
-        Bus.$emit('toggleEvent', event.target)
+      toggle: function (event, index) {
+        this.tab_current = index
+        Bus.$emit('toggleEvent', event.target, index)
         console.log('toggleEvent')
-      },
-      set_tab_val: function (urlStr) {
-        var this_ = this
-        this.tab_list.forEach(function (item, index) {
-          var curUrl = urlStr.split('/')
-          if (curUrl.length > 2) {
-            if (curUrl[1] === 'jape') {
-              this_.tab_current = 2
-            } else if (curUrl[1] === 'pic') {
-              this_.tab_current = 1
-            } else {
-              this_.tab_current = 0
-            }
-          } else {
-            this_.tab_current = 0
-          }
-        })
       }
+//      set_tab_val: function (urlStr) {
+//        var this_ = this
+//        this.tab_list.forEach(function (item, index) {
+//          var curUrl = urlStr.split('/')
+//          if (curUrl.length > 2) {
+//            if (curUrl[1] === 'jape') {
+//              this_.tab_current = 2
+//            } else if (curUrl[1] === 'pic') {
+//              this_.tab_current = 1
+//            } else {
+//              this_.tab_current = 0
+//            }
+//          } else {
+//            this_.tab_current = 0
+//          }
+//        })
+//      }
     },
     created: function () {
 //        this.set_tab_val(this.$route.path)
+      if (this.$route.path === '/') {
+        this.is_home_page = true
+      } else {
+        this.is_home_page = false
+      }
     }
   }
 

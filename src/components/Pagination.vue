@@ -1,129 +1,130 @@
-<!--
-  params:
-    pageNo: 总页数
-    current: 当前的页码
--->
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div class="pager">
-    <button class="btn btn-pager" :disabled="this.current == 1" @click="prePage">上一页</button>
-    <span v-if="pageNo !== 1" v-bind:class="[{active:(1 == current)},('page-index')]" @click="goPage(1)">1</span>
-    <span v-if="preClipped" class="page-index">.</span>
-    <span v-for="index in pages" v-bind:class="[{active:(index==current)},('page-index')]" @click="goPage(index)">{{index}}</span>
-    <span v-if="backClipped" class="page-index">.</span>
-    <span v-bind:class="[{active:(pageNo == current)},('page-index')]" @click="goPage(pageNo)">{{pageNo}}</span>
-    <button class="btn btn-pager" :disabled="this.current == pageNo" @click="nextPage">下一页</button>
-  </div>
+<template>
+  <nav>
+    <ul class="pagination">
+      <li :class="{'disabled': current == 1}"><a href="javascript:" @click="setCurrent(current - 1)"> « </a></li>
+      <li :class="{'disabled': current == 1}"><a href="javascript:" @click="setCurrent(1)">首页</a></li>
+      <li v-for="p in grouplist" :class="{'active': current == p.val}"><a href="javascript:" @click="setCurrent(p.val)"> {{ p.text }} </a></li>
+      <li :class="{'disabled': current == page}"><a href="javascript:" @click="setCurrent(page)">尾页</a></li>
+      <li :class="{'disabled': current == page}"><a href="javascript:" @click="setCurrent(current + 1)"> »</a></li>
+    </ul>
+  </nav>
 </template>
 
 <script>
-  export default {
-    props: {
-      // 用于记录总页码，可由父组件传过来
-      pageNo: {
-        type: Number,
-        default: 1
-      },
-      // 用于记录当前页数，这个与父组件进行数据交互来完成每一页的数据更新，所以我们只要改变current的值来控制整个页面的数据即可
-      current: {
-        type: Number,
-        default: 1
-      }
-    },
+  /* eslint-disable semi,space-in-parens,one-var */
+
+  export default{
     data: function () {
       return {
-        // 用于判断省略号是否显示
-        backClipped: true,
-        preClipped: false
+        current: this.currentPage
       }
     },
-    methods: {
-      prePage () {
-        // 上一页
-        this.current--
+    props: {
+      total: {// 数据总条数
+        type: Number,
+        default: 0
       },
-      nextPage () {
-        // 下一页
-        this.current++
+      display: {// 每页显示条数
+        type: Number,
+        default: 5
       },
-      goPage (index) {
-        // 跳转到相应页面
-        if (index !== this.current) {
-          this.current = index
+      currentPage: {// 当前页码
+        type: Number,
+        default: 1
+      },
+      pagegroup: {// 分页条数
+        type: Number,
+        default: 5,
+        coerce: function (v) {
+          v = v > 0 ? v : 5;
+          return v % 2 === 1 ? v : v + 1;
         }
       }
     },
     computed: {
-      // 使用计算属性来得到每次应该显示的页码
-      pages: function () {
-        let ret = []
-        if (this.current > 3) {
-          // 当前页码大于三时，显示当前页码的前2个
-          ret.push(this.current - 2)
-          ret.push(this.current - 1)
-          if (this.current > 4) {
-            // 当前页与第一页差距4以上时显示省略号
-            this.preClipped = true
+      page: function () { // 总页数
+        return Math.ceil(this.total / this.display);
+      },
+      grouplist: function () { // 获取分页页码
+        var len = this.page, temp = [], list = [], count = Math.floor(this.pagegroup / 2), center = this.current;
+        if (len <= this.pagegroup) {
+          while (len--) {
+            temp.push({text: this.page - len, val: this.page - len});
           }
-        } else {
-          this.preClipped = false
-          for (let i = 2; i < this.current; i++) {
-            ret.push(i)
-          }
+          return temp;
         }
-        if (this.current !== this.pageNo && this.current !== 1) {
-          ret.push(this.current)
+        while (len--) {
+          temp.push(this.page - len);
         }
-        if (this.current < (this.pageNo - 2)) {
-          // 显示当前页码的后2个
-          ret.push(this.current + 1)
-          ret.push(this.current + 2)
-          if (this.current <= (this.pageNo - 3)) {
-            // 当前页与最后一页差距3以上时显示省略号
-            this.backClipped = true
-          }
-        } else {
-          this.backClipped = false
-          for (let i = (this.current + 1); i < this.pageNo; i++) {
-            ret.push(i)
-          }
+        var idx = temp.indexOf(center);
+        (idx < count) && ( center = center + count - idx);
+        (this.current > this.page - count) && ( center = this.page - count);
+        temp = temp.splice(center - count - 1, this.pagegroup);
+        do {
+          var t = temp.shift();
+          list.push({
+            text: t,
+            val: t
+          });
+        } while (temp.length);
+        if (this.page > this.pagegroup) {
+          (this.current > count + 1) && list.unshift({text: '...', val: list[0].val - 1});
+          (this.current < this.page - count) && list.push({text: '...', val: list[list.length - 1].val + 1});
         }
-        // 返回整个页码组
-        return ret
+        return list;
+      }
+    },
+    methods: {
+      setCurrent: function (idx) {
+        if (this.current !== idx && idx > 0 && idx < this.page + 1) {
+          this.current = idx;
+          this.$emit('pagechange', this.current);
+        }
       }
     }
   }
 </script>
 
-<style scoped>
-  .pager {
-    text-align: center;
+<style scoped="scoped">
+  .pagination {
+    overflow: hidden;
+    display: table;
+    margin: 0 auto;
+    /*width: 100%;*/
+    height: 50px;
   }
-  .btn-pager {
-    margin-left: 10px;
-    padding: 0px;
-    width: 60px;
+  .pagination li {
+    float: left;
+    height: 30px;
+    border-radius: 5px;
+    margin: 3px;
+    color: #666;
+  }
+  .pagination li:hover {
+    background: #000;
+  }
+  .pagination li:hover a {
+    /*color: #fff;*/
+  }
+  .pagination li a {
+    display: block;
+    width: 30px;
     height: 30px;
     text-align: center;
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #e3e3e3;
-    border-radius: 0px;;
-  }
-  .btn-pager:hover {
-    background-color: #f2f2f2;
-  }
-  .page-index {
-    display: inline-block;
-    margin-left: 10px;
-    width: 35px;
-    height: 30px;
     line-height: 30px;
-    background-color: #ffffff;
-    cursor: pointer;
-    color: #000000;
+    font-size: 12px;
+    padding: 1px 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    /*color: #ce8483;*/
   }
-  .active {
-    color: #ffffff;
-    background-color: #0bbe06;
+  .pagination .active {
+    background: #000;
   }
+  .pagination .active a {
+    color: #fff;
+    background-color: rgb(212, 63, 58);
+    border-color: rgb(212, 63, 58);
+  }
+
 </style>

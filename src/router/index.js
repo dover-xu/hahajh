@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainContent from '@/components/MainContent'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -17,6 +18,10 @@ export default new Router({
       //   {path: '/all/new', component: AllNew},
       //   {path: '/all/hot', component: AllHot}
       // ]
+    },
+    {
+      path: '/login',
+      component: Login
     }
 
   ]
