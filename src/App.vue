@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <HeadPanel></HeadPanel>
-    <MainContent></MainContent>
+    <router-view></router-view>
     <FootPanel></FootPanel>
   </div>
 </template>
@@ -9,12 +9,11 @@
 <script>
   /* eslint-disable no-unused-vars,indent */
   import HeadPanel from '@/components/HeadPanel'
-  import MainContent from '@/components/MainContent'
   import FootPanel from '@/components/FootPanel'
 
   export default {
     name: 'app',
-    components: {HeadPanel, MainContent, FootPanel}
+    components: {HeadPanel, FootPanel}
   }
 </script>
 

@@ -128,7 +128,7 @@
       }
     },
     created: function () {
-        this.set_tab_val(this.$route.path)
+//        this.set_tab_val(this.$route.path)
     }
   }
 
