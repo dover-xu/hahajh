@@ -57,6 +57,7 @@
   @import 'http://127.0.0.1:8080/static/manager/css/reset.css';
 
 </style>
+
 <script>
   import axios from 'axios'
 
@@ -74,14 +75,24 @@
     methods: {
       submit: function () {
         var formData = JSON.stringify(this.user)
-        axios.post(`${this.GLOBAL.backend}/manager/login/`, formData).then(
+        var this_ = this
+        axios.post(`${this.GLOBAL.api}/v1/login/`, formData).then(
           function (response) {
             console.log('ddddddddd')
+            console.log(response.data.redirect_url)
+            this_.$router.push(response.data.redirect_url)
           }).catch(
           function (response) {
             console.info(response)
           })
       }
+    },
+    created: function () {
+      axios.get(`${this.GLOBAL.api}/v1/login/`).then(
+        response => {
+          console.log(response)
+        }
+      )
     }
   }
 </script>

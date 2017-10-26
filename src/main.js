@@ -5,7 +5,29 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import global_ from '@/components/Global'
-// import '../static/bootstrap/css/bootstrap.min.css'
+import axios from 'axios'
+// import {getCookie} from './util/util.js'
+//
+// function csrfSafeMethod (method) {
+//   // 这里的这些方法不需要csrf保护
+//   return (/^(GET|HEAD|OPTIONS|TRACE)$/i.test(method))
+// }
+// var csrftoken = getCookie('csrftoken')
+// 带cookie请求
+axios.defaults.withCredentials = true
+// axios.interceptors.request.use(
+//   config => {
+//     console.log(csrftoken)
+//     if (!csrfSafeMethod(config.method) && csrftoken) {
+//       config.headers['X-CSRFToken'] = csrftoken
+//     }
+//     return config
+//   },
+//   error => {
+//     return Promise.reject(error)
+//   }
+// )
+Vue.prototype.$axios = axios
 Vue.prototype.GLOBAL = global_
 Vue.config.productionTip = false
 
