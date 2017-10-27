@@ -13,13 +13,13 @@
           <form @submit.stop.prevent="submit">
             <div class="form_text_error">{{ error }}</div>
             <div class="form_text_ipt">
-              <input name="username" type="text" placeholder="手机号/邮箱" v-model="user.username">
+              <input name="username" type="text" placeholder="昵称" v-model="user.username">
             </div>
             <div class="form_text_ipt">
               <input name="password1" type="password" placeholder="密码" v-model="user.password1">
             </div>
             <div class="form_text_ipt">
-              <input name="password2" type="password" placeholder="密码" v-model="user.password2">
+              <input name="password2" type="password" placeholder="确认密码" v-model="user.password2">
             </div>
             <!--{% for field in form %}-->
             <!--<div class="form_text_ipt">-->
@@ -30,7 +30,7 @@
             <!--{% endfor %}-->
             <input type="submit" class="form_btn" value="注册">
             <div class="form_reg_btn">
-              <span>已有帐号？</span><a href="/manager/login">马上登录</a>
+              <span>已有帐号？</span><router-link to="/login">马上登录</router-link>
             </div>
           </form>
           <div class="other_login">
@@ -45,6 +45,7 @@
           </div>
         </div>
       </div>
+      <div class="logo"></div>
     </div>
   </div>
 </template>
@@ -65,7 +66,7 @@
           password1: '',
           password2: ''
         },
-        error: 'this is error info'
+        error: ''
       }
     },
     methods: {

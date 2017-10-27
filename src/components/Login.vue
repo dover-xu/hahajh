@@ -12,7 +12,7 @@
             <div class="form_text_error" v-if="error">{{ error }}</div>
             <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
-              <input name="username" type="text" placeholder="手机号/邮箱" v-model="user.username">
+              <input name="username" type="text" placeholder="昵称" v-model="user.username">
             </div>
             <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
@@ -30,7 +30,7 @@
             <input type="submit" class="form_btn" value="登录">
 
             <div class="form_reg_btn">
-              <span>还没有帐号？</span><a href="/manager/register">马上注册</a>
+              <span>还没有帐号？</span><router-link to="/signup">马上注册</router-link>
             </div>
           </form>
           <div class="other_login">
@@ -72,7 +72,7 @@
       submit: function () {
         var formData = JSON.stringify(this.user)
         var this_ = this
-        axios.post(`${this.GLOBAL.api}/manager/login/`, formData).then(
+        axios.post(`${this.GLOBAL.api}/manager/login`, formData).then(
           response => {
             this.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('error')) {
@@ -88,7 +88,7 @@
       }
     },
     created: function () {
-      axios.get(`${this.GLOBAL.api}/manager/login/`).then(
+      axios.get(`${this.GLOBAL.api}/manager/login`).then(
         response => {
           this.GLOBAL.debug(response)
         }

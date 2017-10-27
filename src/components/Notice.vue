@@ -2,7 +2,7 @@
     <div class="alert alert-success notice">
       <div class="msg-block">{{ message }}</div>
       <div class="login-btn">
-        <router-link to="/login/">
+        <router-link to="/login">
           <b>点此登陆</b>
         </router-link>
       </div>
