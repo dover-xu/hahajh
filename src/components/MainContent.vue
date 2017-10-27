@@ -54,6 +54,8 @@
     components: {Pagination, ContentDetail, SideBar},
     data: function () {
       return {
+        is_login: false,
+        user: {},
         tab_cur_head: 0,
         tab_current: 0,
         note_list: [],
@@ -63,25 +65,34 @@
       }
     },
     methods: {
+      /*  请求和刷新内容  */
       update_data: function () {
         var url = `${this.GLOBAL.api}/contents?type=${this.tab_cur_head}&sort=${this.tab_current}&page=${this.current}&display=${this.display}`
         var this_ = this
 
         axios.get(url).then(
-          function (data) {
-            this_.note_list = data.data.note_list
-            this_.total = data.data.total
-            this_.display = data.data.display
-            this_.current = data.data.current
+          function (response) {
+            this_.user = response.data.user
+            if (this_.is_login !== response.data.is_login) {
+              this_.is_login = response.data.is_login
+              Bus.$emit('loginEvent', this_.is_login, this_.user)
+            }
+
+            this_.note_list = response.data.note_list
+            this_.total = response.data.total
+            this_.display = response.data.display
+            this_.current = response.data.current
           }).catch(
           function (response) {
             console.info(response)
           })
       },
+      /*  导航栏切换  */
       tab_sw: function (index) {
         this.tab_current = index
         this.update_data()
       },
+      /*  换页钩子函数  */
       page_change: function (cur) {
         this.current = cur
         this.update_data()
@@ -90,10 +101,10 @@
     created: function () {
       var this_ = this
       this_.update_data()
+      this.GLOBAL.debug('maincontent created')
       Bus.$on('toggleEvent', (target, index) => {
         this_.tab_cur_head = index
         this_.update_data()
-        console.log(index)
       })
     },
     destroyed: function () {

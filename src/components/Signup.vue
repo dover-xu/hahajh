@@ -1,36 +1,36 @@
 <template>
   <div class="wrap login_wrap">
     <div class="cont">
+
       <div class="logo"></div>
+
       <div class="login_box">
+
         <div class="login_form">
           <div class="login_title">
-            登录
+            注册
           </div>
           <form @submit.stop.prevent="submit">
-            <!--{% csrf_token %}-->
-            <div class="form_text_error" v-if="error">{{ error }}</div>
-            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
+            <div class="form_text_error">{{ error }}</div>
             <div class="form_text_ipt">
               <input name="username" type="text" placeholder="手机号/邮箱" v-model="user.username">
             </div>
-            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
-              <input name="password" type="password" placeholder="密码" v-model="user.password">
+              <input name="password1" type="password" placeholder="密码" v-model="user.password1">
             </div>
-            <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
-            <div class="form_check_ipt">
-              <div class="left check_left">
-                <label><input name="" style="box-shadow: none" type="checkbox"> 下次自动登录</label>
-              </div>
-              <div class="right check_right">
-                <a href="#">忘记密码</a>
-              </div>
+            <div class="form_text_ipt">
+              <input name="password2" type="password" placeholder="密码" v-model="user.password2">
             </div>
-            <input type="submit" class="form_btn" value="登录">
-
+            <!--{% for field in form %}-->
+            <!--<div class="form_text_ipt">-->
+              <!--{{ field }}-->
+              <!--<div class="field_error" style="color: red;font-size: 12px;">{{ field.errors }}</div>-->
+            <!--</div>-->
+            <!--{#                        <div class="ececk_warning"><span>数据不能为空</span></div>#}-->
+            <!--{% endfor %}-->
+            <input type="submit" class="form_btn" value="注册">
             <div class="form_reg_btn">
-              <span>还没有帐号？</span><a href="/manager/register">马上注册</a>
+              <span>已有帐号？</span><a href="/manager/login">马上登录</a>
             </div>
           </form>
           <div class="other_login">
@@ -45,7 +45,6 @@
           </div>
         </div>
       </div>
-      <div class="logo"></div>
     </div>
   </div>
 </template>
@@ -63,34 +62,35 @@
       return {
         user: {
           username: '',
-          password: ''
+          password1: '',
+          password2: ''
         },
-        error: ''
+        error: 'this is error info'
       }
     },
     methods: {
       submit: function () {
         var formData = JSON.stringify(this.user)
         var this_ = this
-        axios.post(`${this.GLOBAL.api}/manager/login/`, formData).then(
+        axios.post(`${this.GLOBAL.api}/manager/signup`, formData).then(
           response => {
-            this.GLOBAL.debug(response)
-            if (response.data.hasOwnProperty('error')) {
-              this_.error = response.data.error
-            }
-            if (response.data.hasOwnProperty('redirect_url')) {
-              this_.$router.push(response.data.redirect_url)
+            this_.GLOBAL.debug(response)
+            if (response.data.hasOwnProperty('is_success') && response.data.hasOwnProperty('message')) {
+              if (response.data.is_success) {
+                this_.$router.push({name: '/notice', params: {message: response.data.message}})
+              }
             }
           }).catch(
-          function (response) {
-            this.GLOBAL.debug(response)
+          response => {
+            this_.GLOBAL.debug(response)
           })
       }
     },
     created: function () {
-      axios.get(`${this.GLOBAL.api}/manager/login/`).then(
+      var this_ = this
+      axios.get(`${this.GLOBAL.api}/manager/signup`).then(
         response => {
-          this.GLOBAL.debug(response)
+          this_.GLOBAL.debug(response)
         }
       )
     }

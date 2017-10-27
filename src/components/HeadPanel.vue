@@ -33,35 +33,33 @@
         </div>
       </div>
       <div class="collapse navbar-collapse" id="navbar-ex-collapse">
-        <ul class="nav navbar-nav navbar-right pull-right top-right">
-          <!--{% if user.is_authenticated %}-->
-          <!--<li>-->
-            <!--<a class="login-name" href="/user/focus/publish"><span-->
-              <!--class="glyphicon glyphicon-user"></span>request.user</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--&lt;!&ndash;{% block logout %}&ndash;&gt;-->
-            <!--<a href="/manager/logout">-->
-              <!--<span class="glyphicon glyphicon-log-out"></span> 退出-->
-            <!--</a>-->
-            <!--&lt;!&ndash;{% endblock %}&ndash;&gt;-->
-          <!--</li>-->
-          <!--{% else %}-->
-          <li>
-
-            <!--{% block login %}-->
-            <router-link to="/login">
-              <span class="glyphicon glyphicon-log-in"></span> 登陆
-            </router-link>
-            <!--{% endblock %}-->
-          </li>
-          <li>
-            <router-link to="/register">
-              <span class="glyphicon glyphicon-user"></span> 注册
-            </router-link>
-          </li>
-          <!--{% endif %}-->
-        </ul>
+        <div v-if="is_login">
+          <ul class="nav navbar-nav navbar-right pull-right top-right">
+            <li>
+              <a class="login-name" href="/user/focus/publish"><span
+                class="glyphicon glyphicon-user"></span> {{ user.username }}</a>
+            </li>
+            <li>
+              <a href="" @click.stop.prevent="logout">
+                <span class="glyphicon glyphicon-log-out"></span> 退出
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div v-else>
+          <ul class="nav navbar-nav navbar-right pull-right top-right">
+            <li>
+              <router-link to="/login">
+                <span class="glyphicon glyphicon-log-in"></span> 登陆
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/signup">
+                <span class="glyphicon glyphicon-user"></span> 注册
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -102,51 +100,55 @@
 <script>
   /* eslint-disable indent,quotes,no-unused-vars */
   import Bus from '@/components/bus.js'
+  import axios from 'axios'
 
   export default {
     name: "HeadPanel",
     data: function () {
       return {
+        is_login: false,
+        user: {},
         tab_current: 0,
         is_home_page: true
-//        tab_list: [
-//          {name: '全部', addr: '/'},
-//          {name: '图片', addr: '/pic/push'},
-//          {name: '段子', addr: '/jape/push'}
-//        ]
       }
     },
     methods: {
       toggle: function (event, index) {
         this.tab_current = index
         Bus.$emit('toggleEvent', event.target, index)
-        console.log('toggleEvent')
+        this.GLOBAL.debug('toggleEvent')
+      },
+      logout: function () {
+        var this_ = this
+        axios.get(`${this.GLOBAL.api}/manager/logout/`).then(
+          response => {
+            if (response.data.hasOwnProperty('is_login')) {
+              this_.is_login = response.data.is_login
+            }
+            if (response.data.hasOwnProperty('redirect_url')) {
+              this_.$router.push(response.data.redirect_url)
+            }
+            this.GLOBAL.debug('logout')
+          }
+        )
       }
-//      set_tab_val: function (urlStr) {
-//        var this_ = this
-//        this.tab_list.forEach(function (item, index) {
-//          var curUrl = urlStr.split('/')
-//          if (curUrl.length > 2) {
-//            if (curUrl[1] === 'jape') {
-//              this_.tab_current = 2
-//            } else if (curUrl[1] === 'pic') {
-//              this_.tab_current = 1
-//            } else {
-//              this_.tab_current = 0
-//            }
-//          } else {
-//            this_.tab_current = 0
-//          }
-//        })
-//      }
     },
     created: function () {
-//        this.set_tab_val(this.$route.path)
       if (this.$route.path === '/') {
         this.is_home_page = true
       } else {
         this.is_home_page = false
       }
+      this.GLOBAL.debug('headpanel created')
+      var this_ = this
+      Bus.$on('loginEvent', (isLogin, user) => {
+        this_.is_login = isLogin
+        this_.user = user
+        this.GLOBAL.debug('login event')
+      })
+    },
+    destroyed: function () {
+      Bus.$off('loginEvent')
     }
   }
 
