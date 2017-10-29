@@ -2,7 +2,6 @@
   <div>
     <ul class="list-unstyled">
       <div v-for="note in note_list">
-        <!--{% for note in note_list %}-->
         <li class="nav" style="border-bottom: 1px solid #d5d5d5;">
           <!-- 用户信息 -->
           <div class="u-bar">
@@ -89,9 +88,7 @@
             </div>
           </div>
         </li>
-
       </div>
-      <!--{% endfor %}-->
     </ul>
   </div>
 </template>
@@ -110,18 +107,6 @@
       }
     },
     created: function () {
-//      var url = "http://localhost:8008/contents?type=jape&sort=hot&page=" + String(this.page_id)
-//      var this_ = this
-//
-//      axios.get(url).then(
-//        function (data) {
-//          this_.note_list = data.data.note_list
-//          this_.rows = data.data.rows
-//          this_.page_id = data.data.page_id
-//        }).catch(
-//        function (response) {
-//          console.info(response)
-//        })
     }
   }
 </script>

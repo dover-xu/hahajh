@@ -47,7 +47,6 @@
   import ContentDetail from '@/components/ContentDetail'
   import SideBar from '@/components/SideBar'
   import Pagination from '@/components/Pagination'
-  import axios from 'axios'
 
   export default {
     name: "Content",
@@ -67,11 +66,17 @@
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        var url = `${this.GLOBAL.api}/contents?type=${this.tab_cur_head}&sort=${this.tab_current}&page=${this.current}&display=${this.display}`
+        var url = `${this.GLOBAL.api}/contents`
         var this_ = this
+        var params = JSON.stringify({
+          'type': this.tab_cur_head,
+          'sort': this.tab_current,
+          'current': this.current,
+          'display': this.display
+        })
 
-        axios.get(url).then(
-          function (response) {
+        this.$axios.post(url, params).then(
+          response => {
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
@@ -83,8 +88,8 @@
             this_.display = response.data.display
             this_.current = response.data.current
           }).catch(
-          function (response) {
-            console.info(response)
+          response => {
+            this_.GLOBAL.debug(response)
           })
       },
       /*  导航栏切换  */

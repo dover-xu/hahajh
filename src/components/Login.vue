@@ -56,8 +56,6 @@
 </style>
 
 <script>
-  import axios from 'axios'
-
   export default {
     data: function () {
       return {
@@ -70,11 +68,12 @@
     },
     methods: {
       submit: function () {
+        var url = `${this.GLOBAL.api}/manager/login`
         var formData = JSON.stringify(this.user)
         var this_ = this
-        axios.post(`${this.GLOBAL.api}/manager/login`, formData).then(
+        this.$axios.post(url, formData).then(
           response => {
-            this.GLOBAL.debug(response)
+            this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('error')) {
               this_.error = response.data.error
             }
@@ -82,13 +81,13 @@
               this_.$router.push(response.data.redirect_url)
             }
           }).catch(
-          function (response) {
-            this.GLOBAL.debug(response)
+          response => {
+            this_.GLOBAL.debug(response)
           })
       }
     },
     created: function () {
-      axios.get(`${this.GLOBAL.api}/manager/login`).then(
+      this.$axios.get(`${this.GLOBAL.api}/manager/login`).then(
         response => {
           this.GLOBAL.debug(response)
         }

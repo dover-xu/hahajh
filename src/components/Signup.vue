@@ -56,8 +56,6 @@
 </style>
 
 <script>
-  import axios from 'axios'
-
   export default {
     data: function () {
       return {
@@ -73,7 +71,7 @@
       submit: function () {
         var formData = JSON.stringify(this.user)
         var this_ = this
-        axios.post(`${this.GLOBAL.api}/manager/signup`, formData).then(
+        this.$axios.post(`${this.GLOBAL.api}/manager/signup`, formData).then(
           response => {
             this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('is_success') && response.data.hasOwnProperty('message')) {
@@ -89,7 +87,7 @@
     },
     created: function () {
       var this_ = this
-      axios.get(`${this.GLOBAL.api}/manager/signup`).then(
+      this.$axios.get(`${this.GLOBAL.api}/manager/signup`).then(
         response => {
           this_.GLOBAL.debug(response)
         }

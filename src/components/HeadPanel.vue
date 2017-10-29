@@ -15,11 +15,6 @@
       <div>
         <div v-if="is_home_page">
           <ul class="nav navbar-nav top-left">
-            <!--<li style="float:left" v-for="(item, index) in tab_list" :class="{active:(tab_current==index)}" @click.stop.prevent="toggle($event)" @click="tab_current = index" >-->
-              <!--<router-link :to="item.addr" :style="{'background':(tab_current==index)?'#ac2925':''}" >-->
-                <!--{{item.name}}-->
-              <!--</router-link>-->
-            <!--</li>-->
               <li style="float:left" :class="{active:(tab_current==0)}" @click.prevent="toggle($event, 0)" >
                 <a href="" :style="{'background':(tab_current==0)?'#ac2925':''}" >全部</a>
               </li>
@@ -36,7 +31,7 @@
         <div v-if="is_login">
           <ul class="nav navbar-nav navbar-right pull-right top-right">
             <li>
-              <a class="login-name" href="/user/focus/publish"><span
+              <a class="login-name" href="/user"><span
                 class="glyphicon glyphicon-user"></span> {{ user.username }}</a>
             </li>
             <li>
@@ -100,7 +95,6 @@
 <script>
   /* eslint-disable indent,quotes,no-unused-vars */
   import Bus from '@/components/bus.js'
-  import axios from 'axios'
 
   export default {
     name: "HeadPanel",
@@ -120,7 +114,7 @@
       },
       logout: function () {
         var this_ = this
-        axios.get(`${this.GLOBAL.api}/manager/logout/`).then(
+        this.$axios.get(`${this.GLOBAL.api}/manager/logout/`).then(
           response => {
             if (response.data.hasOwnProperty('is_login')) {
               this_.is_login = response.data.is_login

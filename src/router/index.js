@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import MainContent from '@/components/MainContent'
 import Login from '@/components/Login'
 import Signup from '@/components/Signup'
+import User from '@/components/User'
 import Notice from '@/components/Notice'
 
 Vue.use(Router)
@@ -30,11 +31,14 @@ export default new Router({
       component: Signup
     },
     {
+      path: '/user',
+      component: User
+    },
+    {
       name: 'notice',
       path: '/notice',
       component: Notice
     }
-
   ]
 })
 
