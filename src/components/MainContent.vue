@@ -43,7 +43,7 @@
 
 <script>
   /* eslint-disable quotes,no-unused-vars */
-  import Bus from '@/components/bus.js'
+//  import Bus from '@/components/bus.js'
   import ContentDetail from '@/components/ContentDetail'
   import SideBar from '@/components/SideBar'
   import Pagination from '@/components/Pagination'
@@ -80,13 +80,14 @@
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
-              Bus.$emit('loginEvent', this_.is_login, this_.user)
+              this.Bus.$emit('loginEvent', this_.is_login, this_.user)
             }
 
             this_.note_list = response.data.note_list
             this_.total = response.data.total
             this_.display = response.data.display
             this_.current = response.data.current
+            console.log(response)
           }).catch(
           response => {
             this_.GLOBAL.debug(response)
@@ -107,13 +108,14 @@
       var this_ = this
       this_.update_data()
       this.GLOBAL.debug('maincontent created')
-      Bus.$on('toggleEvent', (target, index) => {
+      this.Bus.$on('toggleEvent', (target, index) => {
         this_.tab_cur_head = index
         this_.update_data()
       })
     },
     destroyed: function () {
-      Bus.$off('toggleEvent')
+      this.GLOBAL.debug('main content destroyed')
+//      this.Bus.$off('toggleEvent')
     }
   }
 </script>

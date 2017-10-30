@@ -6,6 +6,7 @@ import router from './router'
 import VueResource from 'vue-resource'
 import global_ from '@/components/Global'
 import axios from 'axios'
+import Bus from '@/components/bus.js'
 // import {getCookie} from './util/util.js'
 //
 // function csrfSafeMethod (method) {
@@ -27,7 +28,9 @@ axios.defaults.withCredentials = true
 //     return Promise.reject(error)
 //   }
 // )
+
 Vue.prototype.$axios = axios
+Vue.prototype.Bus = Bus
 Vue.prototype.GLOBAL = global_
 Vue.config.productionTip = false
 

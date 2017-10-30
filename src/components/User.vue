@@ -71,7 +71,7 @@
                     </a>
                     <span class="pull-left pub-time"> {{ note.pub_date }} </span>
                     <div class="pull-right">
-                      <div class="tool-bar" style="width: auto">
+                      <div class="total-bar">
                         <div class="praise-1">
                         <span class="praise-2">
                             <img src="/static/focus/images/zan.png"
@@ -81,19 +81,18 @@
                         <span class="praise-txt"> {{ note.praise_str }} </span>
                         <span class="add-num-praise">
                           <em>+1</em>
-                      </span>
-                        <div class="tread-1">
-                        <span class="tread-2">
-                            <img src="/static/focus/images/cai.png"
-                                 class="tread-img">
                         </span>
+                        <div class="tread-1">
+                          <span class="tread-2">
+                              <img src="/static/focus/images/cai.png" class="tread-img">
+                          </span>
                         </div>
                         <span class="tread-txt"> {{ note.tread_str }} </span>
                         <span class="add-num-tread">
                           <em>+1</em>
-                      </span>
+                        </span>
                       </div>
-                      <span>
+                      <span style="float: right">
                         <div v-if="is_login">
                           <a href="/detail_note.id"></a>
                         </div>
@@ -102,7 +101,7 @@
                         </div>
                         <span class="glyphicon glyphicon-comment comment-img"></span>
                         <span class="comment-txt"> {{ note.comment_str }} </span>
-                    </span>
+                      </span>
                     </div>
                   </div>
                   <!-- 发布内容 -->
@@ -121,26 +120,21 @@
               </div>
             </ul>
           </div>
-          <div class="nav">
-            <!-- 分页导航 -->
-            <div class="pages">
-              <div id="Pagination"></div>
-            </div>
-          </div>
+          <Pagination :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
         </div>
         <!-- 右侧边栏 -->
         <div class="col-sm-3 hidden-xs main-right">
-          <div class="person-info">
-            <span>
+          <div style="text-align: left">
+            <span style="">
                 <a href="/manager/setting">
-                    <img src="" alt="头像无法显示" class="info-avatar">
+                    <img :src="user.avatar" alt="头像无法显示" class="info-avatar">
                 </a>
             </span>
-            <span class="info-name">user.username</span>
-            <div class="tips-name">user.username</div>
+            <span class="info-name"> {{ user.username }} </span>
+            <div class="tips-name"> {{ user.username }} </div>
             <span class="info-score">积分：0</span>
-            <span class="info-signature">user.profile</span>
-            <div class="tips-signature">user.profile</div>
+            <span class="info-signature"> {{ user.profile }}</span>
+            <div class="tips-signature"> {{ user.profile }} </div>
           </div>
           <div class="publish">
             <a href="/user/publish/pic">
@@ -155,42 +149,211 @@
   </div>
 </template>
 <style scoped="scoped">
+  .total-bar {
+    float:left;
+    width: auto;
+  }
+  .info-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    margin: 10px;
+  }
+  .info-name {
+    word-break: break-all;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    width: auto;
+    height: 20px;
+    font-size: 15px;
+    position: absolute;
+    top: 10px;
+    margin-right: 10px;
+  }
+  .tips-name {
+    z-index: 1;
+    display: none;
+    font-size: 15px;
+    width: 100px;
+    word-break: break-all;
+    padding: 2px;
+    position: absolute;
+    top: 30px;
+    left: 140px;
+    color: #333;
+    background-color: #f5f5f5;
+    border: solid 1px #888;
+    box-shadow: 3px 3px 3px #666;
+    border-radius: 3px;
+    /*opacity: 0.8;*/
+    /*filter: alpha(opacity=80);*/
+    /*-moz-opacity: 0.8;*/
+  }
+  .info-name-s {
+    word-break: break-all;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    width: auto;
+    height: 20px;
+    font-size: 15px;
+    /*position: absolute;*/
+    /*top: 120px;*/
+    margin-right: 10px;
+  }
 
+  .tips-name-s {
+    z-index: 1;
+    display: none;
+    font-size: 15px;
+    width: 100px;
+    word-break: break-all;
+    padding: 2px;
+    position: absolute;
+    top: 140px;
+    left: 140px;
+    color: #333;
+    background-color: #f5f5f5;
+    border: solid 1px #888;
+    box-shadow: 3px 3px 3px #666;
+    border-radius: 3px;
+    /*opacity: 0.8;*/
+    /*filter: alpha(opacity=80);*/
+    /*-moz-opacity: 0.8;*/
+  }
+
+  .info-score {
+    color: #888;
+    position: absolute;
+    top: 40px;
+  }
+
+  .info-score-s {
+    color: #888;
+    font-size: 12px;
+    /*position: absolute;*/
+    /*top: 150px;*/
+  }
+
+  .info-signature {
+    color: #888;
+    word-break: break-all;
+    width: auto;
+    height: 43px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    position: absolute;
+    margin-right: 10px;
+    top: 60px;
+  }
+
+  .info-signature-s {
+    color: #888;
+    font-size: 12px;
+    word-break: break-all;
+    width: auto;
+    height: 43px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    /*position: absolute;*/
+    margin-right: 10px;
+    /*top: 170px;*/
+  }
+
+  .tips-signature {
+    z-index: 1;
+    display: none;
+    font-size: 12px;
+    width: 100px;
+    word-break: break-all;
+    padding: 2px;
+    position: absolute;
+    top: 110px;
+    left: 140px;
+    color: #333;
+    background-color: #f5f5f5;
+    border: solid 1px #888;
+    box-shadow: 3px 3px 3px #666;
+    border-radius: 3px;
+    /*opacity: 0.9;*/
+    /*filter: alpha(opacity=90);*/
+    /*-moz-opacity: 0.9;*/
+  }
+
+  .tips-signature-s {
+    z-index: 1;
+    display: none;
+    font-size: 12px;
+    width: 100px;
+    word-break: break-all;
+    padding: 2px;
+    position: absolute;
+    top: 200px;
+    left: 140px;
+    color: #333;
+    background-color: #f5f5f5;
+    border: solid 1px #888;
+    box-shadow: 3px 3px 3px #666;
+    border-radius: 3px;
+    /*opacity: 0.9;*/
+    /*filter: alpha(opacity=90);*/
+    /*-moz-opacity: 0.9;*/
+  }
 </style>
 <script>
 //  import Bus from '@/components/bus.js'
+  import Pagination from '@/components/Pagination'
 
   export default {
     name: 'User',
+    components: {Pagination},
     data: function () {
       return {
         is_login: false,
+        user: {},
         note_list: [],
         total: 1,
         current: 1,
         display: 5
       }
     },
+    methods: {
+      /*  换页钩子函数  */
+      page_change: function (cur) {
+        this.current = cur
+        this.update_data()
+      },
+      update_data: function () {
+        this.GLOBAL.debug('user created')
+        var url = `${this.GLOBAL.api}/ucenter`
+        var this_ = this
+        var params = JSON.stringify({
+          'current': this.current,
+          'display': this.display
+        })
+        this.$axios.post(url, params).then(
+          response => {
+            this_.user = response.data.user
+            if (this_.is_login !== response.data.is_login) {
+              this_.is_login = response.data.is_login
+              this.Bus.$emit('loginEvent', this_.is_login, this_.user)
+            }
+            this_.note_list = response.data.note_list
+            this_.total = response.data.total
+            this_.current = response.data.current
+            console.log(response)
+          }
+        ).catch(
+          response => {
+          }
+        )
+      }
+    },
     created: function () {
-      this.GLOBAL.debug('user created')
-      var url = `${this.GLOBAL.api}/ucenter`
-      var this_ = this
-      var params = JSON.stringify({
-        'current': this.current,
-        'display': this.display
-      })
-      this.$axios.post(url, params).then(
-        response => {
-          this_.GLOBAL.debug(response)
-          this_.is_login = response.data.is_login
-          this_.note_list = response.data.note_list
-          this_.total = response.data.total
-          this_.current = response.data.current
-        }
-      ).catch(
-        response => {
-        }
-      )
+      this.update_data()
     },
     destroyed: function () {
     }

@@ -94,7 +94,7 @@
 </style>
 <script>
   /* eslint-disable indent,quotes,no-unused-vars */
-  import Bus from '@/components/bus.js'
+//  import Bus from '@/components/bus.js'
 
   export default {
     name: "HeadPanel",
@@ -109,7 +109,7 @@
     methods: {
       toggle: function (event, index) {
         this.tab_current = index
-        Bus.$emit('toggleEvent', event.target, index)
+        this.Bus.$emit('toggleEvent', event.target, index)
         this.GLOBAL.debug('toggleEvent')
       },
       logout: function () {
@@ -135,14 +135,14 @@
       }
       this.GLOBAL.debug('headpanel created')
       var this_ = this
-      Bus.$on('loginEvent', (isLogin, user) => {
+      this.Bus.$on('loginEvent', (isLogin, user) => {
         this_.is_login = isLogin
         this_.user = user
         this.GLOBAL.debug('login event')
       })
     },
     destroyed: function () {
-      Bus.$off('loginEvent')
+//      this.Bus.$off('loginEvent')
     }
   }
 
