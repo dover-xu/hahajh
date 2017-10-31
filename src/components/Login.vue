@@ -50,8 +50,8 @@
   </div>
 </template>
 <style scoped="scoped">
-  @import 'http://127.0.0.1:8080/static/manager/css/common.css';
-  @import 'http://127.0.0.1:8080/static/manager/css/reset.css';
+  @import '/static/manager/css/common.css';
+  @import '/static/manager/css/reset.css';
 
 </style>
 

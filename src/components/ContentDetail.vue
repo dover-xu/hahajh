@@ -15,21 +15,17 @@
           </div>
           <!-- 发布内容 -->
           <div class="cont">
-            <a :href="'/detail_' + 'note.id'">
-              <!--{% if note.text %}-->
+            <router-link :to="'/detail/' + note.id">
               <div v-if="note.text">
                 <div class="c-text">{{ note.text }}</div>
               </div>
-              <!--{% endif %}-->
-              <!--{% if note.image %}-->
               <div v-if="note.image">
                 <div class="content-img">
                   <img :src="note.image" alt="图片无法显示"
                        class="img-responsive center-block" width="100%">
                 </div>
               </div>
-              <!--{% endif %}-->
-            </a>
+            </router-link>
           </div>
           <!-- 工具条 -->
           <div class="tool-bar" :data-id="note.id">
@@ -51,34 +47,29 @@
               </div>
               <span class="praise-txt">{{ note.praise_str }}</span>
               <span class="add-num-praise">
-                          <em>+1</em>
-                      </span>
+                  <em>+1</em>
+              </span>
               <div class="tread-1">
-                        <span class="tread-2">
-                          <div v-if="note.T">
-                            <!--{% if note.T %}-->
-                            <img src="/static/focus/images/yicai.png"
-                                 class="tread-img">
-                          </div>
-                          <div v-else>
-                            <!--{% else %}-->
-                            <img src="/static/focus/images/cai.png"
-                                 class="tread-img">
-                          </div>
-                          <!--{% endif %}-->
-                        </span>
+                <span class="tread-2">
+                  <div v-if="note.T">
+                    <img src="/static/focus/images/yicai.png" class="tread-img">
+                  </div>
+                  <div v-else>
+                    <img src="/static/focus/images/cai.png" class="tread-img">
+                  </div>
+                </span>
               </div>
               <span class="tread-txt">{{ note.tread_str }}</span>
               <span class="add-num-tread">
-                          <em>+1</em>
-                      </span>
+                <em>+1</em>
+              </span>
             </div>
             <span>
-                        <a :href="'/detail_' + 'note.id'">
-                            <span class="glyphicon glyphicon-comment comment-img"></span>
-                        </a>
-                        <span class="comment-txt">{{ note.comment_str }}</span>
-                    </span>
+              <a :href="'/detail_' + 'note.id'">
+                  <span class="glyphicon glyphicon-comment comment-img"></span>
+              </a>
+              <span class="comment-txt">{{ note.comment_str }}</span>
+            </span>
             <div class="bdsharebuttonbox" data-tag="share_1" :data-id="note.id"
                  style="float:right;padding:8px 5px">
               <a href="#" class="bds_more" data-cmd="more" style="color:#d5d5d5"></a>

@@ -15,7 +15,6 @@
         <div class="col-sm-offset-1 col-sm-7 main-left">
           <div>
             <ul class="nav nav-tabs ">
-              <!--{% block nav-tabs %}-->
               <li :class="{active:(tab_current==0)}" v-on:click.prevent="tab_sw(0)">
                 <a href="" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</a>
               </li>
@@ -25,11 +24,9 @@
               <li :class="{active:(tab_current==2)}" v-on:click.prevent="tab_sw(2)">
                 <a href="" v-bind:style="{'color':(tab_current==2)?'#ac483d':''}">最热</a>
               </li>
-              <!--{% endblock %}-->
             </ul>
           </div>
           <ContentDetail :note_list="note_list" :total="total" :current="current"></ContentDetail>
-          <!--<Pagination :pageNo="7" :current="current" @current_sw="current_sw"></Pagination>-->
           <Pagination :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
         </div>
         <SideBar></SideBar>
@@ -80,7 +77,7 @@
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
-              this.Bus.$emit('loginEvent', this_.is_login, this_.user)
+              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
             }
 
             this_.note_list = response.data.note_list

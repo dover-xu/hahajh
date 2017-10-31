@@ -38,25 +38,25 @@
           <!-- 排序标签 -->
           <div>
             <ul class="nav nav-justified hidden-xs">
-              <li class="active" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
-                <a href="/user/focus/publish">发表</a>
+              <li :class="{active:(tab_current==0)}" @click.prevent="tab_sw(0)" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+                <a href="" v-bind:style="{'color':(tab_current==0)?'#ac483d':'', 'background-color': 'white'}">发表</a>
               </li>
-              <li style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
-                <a href="/user/focus/share">分享</a>
+              <li :class="{active:(tab_current==1)}" @click.prevent="tab_sw(1)" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+                <a href="" v-bind:style="{'color':(tab_current==1)?'#ac483d':'', 'background-color': 'white'}">分享</a>
               </li>
-              <li style="border-bottom: 1px solid #eee">
-                <a href="/user/focus/comment">评论</a>
+              <li :class="{active:(tab_current==2)}" @click.prevent="tab_sw(2)" style="border-bottom: 1px solid #eee">
+                <a href="" v-bind:style="{'color':(tab_current==2)?'#ac483d':'', 'background-color': 'white'}">评论</a>
               </li>
             </ul>
             <ul class="nav nav-tabs hidden-sm hidden-md hidden-lg">
-              <li class="active" style="border-bottom: 1px solid #eee;">
-                <a href="/user/focus/publish">发表</a>
+              <li :class="{active:(tab_current==0)}" @click.prevent="tab_sw(0)" style="border-bottom: 1px solid #eee">
+                <a href="" v-bind:style="{'color':(tab_current==0)?'#ac483d':'', 'background-color': 'white'}">发表</a>
               </li>
-              <li style="border-bottom: 1px solid #eee;">
-                <a href="/user/focus/share">分享</a>
+              <li :class="{active:(tab_current==1)}" @click.prevent="tab_sw(1)" style="border-bottom: 1px solid #eee">
+                <a href="" v-bind:style="{'color':(tab_current==1)?'#ac483d':'', 'background-color': 'white'}">分享</a>
               </li>
-              <li style="border-bottom: 1px solid #eee">
-                <a href="/user/focus/comment">评论</a>
+              <li :class="{active:(tab_current==2)}" @click.prevent="tab_sw(2)" style="border-bottom: 1px solid #eee">
+                <a href="" v-bind:style="{'color':(tab_current==2)?'#ac483d':'', 'background-color': 'white'}">评论</a>
               </li>
             </ul>
           </div>
@@ -106,7 +106,7 @@
                   </div>
                   <!-- 发布内容 -->
                   <div class="cont" style="display: block">
-                    <a href="/detail_note.id">
+                    <router-link :to="'/detail/' + note.id">
                       <div class="c-text" v-if="note.text">
                         {{ note.text }}
                       </div>
@@ -114,7 +114,7 @@
                         <img :src="note.image" alt="图片无法显示"
                              class="img-responsive center-block" width="100%">
                       </div>
-                    </a>
+                    </router-link>
                   </div>
                 </li>
               </div>
@@ -202,7 +202,6 @@
     /*top: 120px;*/
     margin-right: 10px;
   }
-
   .tips-name-s {
     z-index: 1;
     display: none;
@@ -222,20 +221,17 @@
     /*filter: alpha(opacity=80);*/
     /*-moz-opacity: 0.8;*/
   }
-
   .info-score {
     color: #888;
     position: absolute;
     top: 40px;
   }
-
   .info-score-s {
     color: #888;
     font-size: 12px;
     /*position: absolute;*/
     /*top: 150px;*/
   }
-
   .info-signature {
     color: #888;
     word-break: break-all;
@@ -248,7 +244,6 @@
     margin-right: 10px;
     top: 60px;
   }
-
   .info-signature-s {
     color: #888;
     font-size: 12px;
@@ -262,7 +257,6 @@
     margin-right: 10px;
     /*top: 170px;*/
   }
-
   .tips-signature {
     z-index: 1;
     display: none;
@@ -282,7 +276,6 @@
     /*filter: alpha(opacity=90);*/
     /*-moz-opacity: 0.9;*/
   }
-
   .tips-signature-s {
     z-index: 1;
     display: none;
@@ -314,6 +307,7 @@
       return {
         is_login: false,
         user: {},
+        tab_current: 0,
         note_list: [],
         total: 1,
         current: 1,
@@ -331,6 +325,7 @@
         var url = `${this.GLOBAL.api}/ucenter`
         var this_ = this
         var params = JSON.stringify({
+          'type': this.tab_current,
           'current': this.current,
           'display': this.display
         })
@@ -350,6 +345,11 @@
           response => {
           }
         )
+      },
+      /*  导航栏切换  */
+      tab_sw: function (index) {
+        this.tab_current = index
+        this.update_data()
       }
     },
     created: function () {
