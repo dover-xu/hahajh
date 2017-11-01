@@ -2,7 +2,7 @@
   <!-- 右侧边栏 -->
   <div class="col-sm-3 hidden-xs main-right">
     <div class="publish">
-      <a href="/user/publish/pic">
+      <a href="/publish">
         <span class="glyphicon glyphicon-edit"></span>
         <span style="position: relative;bottom: 3px">发帖</span>
       </a>
