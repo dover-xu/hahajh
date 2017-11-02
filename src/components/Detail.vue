@@ -21,7 +21,7 @@
                 <div class="cont">
                   <div v-if="note.text" class="c-text">{{ note.text }}</div>
                   <div v-if="note.image" class="content-img">
-                    <img :src="note.image.url" alt="图片无法显示"
+                    <img :src="note.image" alt="图片无法显示"
                          class="img-responsive center-block" width="100%">
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                   </div>
                   <span>
                       <span class="glyphicon glyphicon-comment comment-img"></span>
-                      <span class="comment-txt">{{ note.comment_str }}</span>
+                      <span class="comment-txt" ref="comment_txt">{{ note.comment_str }}</span>
                   </span>
                   <div class="bdsharebuttonbox" style="float:right;padding:8.5px 10px">
                     <a href="#" class="bds_more" data-cmd="more" style="color:#d5d5d5"></a>
@@ -64,11 +64,12 @@
             </ul>
           </div>
           <div id="qq">
-            <p>评论({{ note.comment_str }})</p>
+            <p style="text-align: left" ref="comment_cnt">评论({{ note.comment_str }})</p>
+            <div v-model="content"> </div>
             <div class="message" contentEditable='true'></div>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
-              <span class='submit'>发表</span>
+              <span class='submit' @click="push">发表</span>
               <!--face begin-->
               <div class="face">
                 <ul>
@@ -195,8 +196,7 @@
           <!--qq end-->
           <div id="time1"></div>
           <!--msgCon begin-->
-          <div class="msgCon">
-            <!--{% for comment in comments %}-->
+          <div class="msgCon" ref="msgCon">
             <div v-for="comment in comments" class='msgBox'>
               <dl>
                 <dt>
@@ -206,20 +206,10 @@
               </dl>
               <div class='msgTxt'>{{ comment.text }}</div>
             </div>
-            <!--{% endfor %}-->
           </div>
         </div>
         <!-- 右侧边栏 -->
         <SideBar></SideBar>
-        <!--<div class="col-sm-3 hidden-xs main-right">-->
-          <!--<div class="publish">-->
-            <!--<a href="/user/publish/video">-->
-              <!--<span class="glyphicon glyphicon-edit"></span>-->
-              <!--<span style="position: relative;bottom: 3px">发帖</span>-->
-            <!--</a>-->
-          <!--</div>-->
-          <!--<img src="/static/focus/images/test_img1.png" alt="图片无法显示" class="img-thumbnail">-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -228,7 +218,9 @@
   @import '/static/focus/css/comment.css';
 </style>
 <script>
-//  import Bus from '@/components/bus.js'
+  /* eslint-disable quotes */
+
+  //  import Bus from '@/components/bus.js'
   import SideBar from '@/components/SideBar'
 
   export default {
@@ -238,20 +230,22 @@
       return {
         user: {},
         is_login: false,
-        note: {},
+        note: {
+          user: {}},
         comments: [],
         current: 1,
         display: 5,
         has_praise: false,
-        has_tread: false
+        has_tread: false,
+        content: 'aadf'
       }
     },
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        var url = `${this.GLOBAL.api}/details`
-        var this_ = this
-        var params = JSON.stringify({
+        let url = `${this.GLOBAL.api}/details`
+        let this_ = this
+        let params = JSON.stringify({
           'id': this.$route.params['id'],
           'current': this.current,
           'display': this.display
@@ -262,7 +256,7 @@
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
-              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
+//              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
             }
             this_.note = response.data.note
             this_.total = response.data.total
@@ -275,7 +269,53 @@
           response => {
             this_.GLOBAL.debug(response)
           })
+      },
+      // 修改了管理员信息
+      push: function () {
+        if (this.is_login) {
+          let txt = this.target.html()
+          if (txt === '') {
+            this.target.focus()  // 自动获取焦点
+            return
+          }
+          this.$refs.msgCon.prepend(
+            "<div class='msgBox'>" +
+            "<dl>" +
+            "<dt>" +
+            "<img src='{{ note.user.avatar.url }}' alt='头像无法显示' width='50' height='50'/>" +
+            "</dt>" +
+            "<dd> {{ note.user.username }}</dd>" +
+            "</dl>" +
+            "<div class='msgTxt'>" + txt + "</div>" +
+            "</div>")
+//          let this_ = this
+          this.$axios.post("/api/a-c/", {
+            'note_id': this.note.id,
+            txt: txt
+          }).then(
+            function (data) {
+//              this_.$refs.comment_cnt.html("评论(" + data + ")")
+//              this_.$refs.comment_txt.html(data)
+            }
+          )
+        } else {
+          location.href = "/manager/login/?url=/detail_" + this.note.id
+        }
       }
+//        // 修改了头像
+//        if (this.$refs.picInput.files.length !== 0) {
+//          let formData = new FormData()
+//          if (this.tab_current === 0) {
+//            formData.append('pic', this.$refs.picInput.files[0])
+//          }
+//          formData.append('text_area', this.text_area)
+//          this.$axios.post('http://127.0.0.1:8008/publish', formData, {
+//            headers: {
+//              'Content-Type': 'multipart/form-data'
+//            }
+//          })
+//        }
+//      }
     },
     created: function () {
       this.GLOBAL.debug('Detail created')

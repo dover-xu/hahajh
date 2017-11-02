@@ -62,6 +62,11 @@
           </div>
           <div>
             <ul class="list-unstyled">
+              <div v-if="note_list.length === 0" class="no-content-tips">
+                <div v-if="tab_current === 0">你还没有发表任何内容</div>
+                <div v-else-if="tab_current === 1">你还没有分享任何内容</div>
+                <div v-else-if="tab_current === 2">你还没有评论任何内容</div>
+              </div>
               <div v-for="note in note_list">
                 <li class="nav" style="border-bottom: 1px solid #d5d5d5;">
                   <!-- 基本信息 -->
@@ -120,7 +125,7 @@
               </div>
             </ul>
           </div>
-          <Pagination :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
+          <Pagination v-if="note_list.length > 0" :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
         </div>
         <!-- 右侧边栏 -->
         <div class="col-sm-3 hidden-xs main-right">
@@ -137,10 +142,10 @@
             <div class="tips-signature"> {{ user.profile }} </div>
           </div>
           <div class="publish">
-            <a href="/user/publish/pic">
+            <router-link to="/publish">
               <span class="glyphicon glyphicon-edit"></span>
               <span style="position: relative;bottom: 3px">发帖</span>
-            </a>
+            </router-link>
           </div>
           <img src="/static/focus/images/test_img1.png" alt="图片无法显示" class="img-thumbnail">
         </div>
@@ -149,6 +154,9 @@
   </div>
 </template>
 <style scoped="scoped">
+  .no-content-tips {
+    padding: 50px;
+  }
   .total-bar {
     float:left;
     width: auto;
@@ -334,7 +342,7 @@
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
-              this.Bus.$emit('loginEvent', this_.is_login, this_.user)
+//              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
             }
             this_.note_list = response.data.note_list
             this_.total = response.data.total

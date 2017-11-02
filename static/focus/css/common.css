@@ -144,42 +144,12 @@ i.topic-icon {
     color: #d43f3a;
 }
 
-#pic-null {
-    display: none;
-    position: absolute;
-    left: 190px;
-    bottom: 55px;
-    color: #d43f3a;
-    font-size: 12px;
-    line-height: 20px;
-}
-
-input.pub-trig:focus {
-    box-shadow: 0 0 0 1000px #a94442 inset;
-    outline: 1px solid #777777;
-}
-
-.pub-trig {
-    display: block;
-    width: 300px;
-    height: 40px;
-    margin: 10px auto;
-    color: #FFFFFF;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 0 0 1000px #d43f3a inset;
-}
-
 .main-right > div {
     background: #fff;
     margin-bottom: 10px;
     border: 1px solid #e8e8e8;
     padding: 4px;
     overflow: hidden;
-}
-
-.publish {
 }
 
 .publish-s {
@@ -199,10 +169,6 @@ input.pub-trig:focus {
     vertical-align: middle;
 }
 
-.publish-s a {
-
-}
-
 .publish a {
     background: #d43f3a;
     display: block;
@@ -215,40 +181,11 @@ input.pub-trig:focus {
     color: #FFFFFF;
 }
 
-.hxjx {
-    margin: 10px 0;
-}
-
-.hxjx-title {
-    background-color: #d43f3a;
-    padding: 2px 5px;
-    font-size: 15px;
-    letter-spacing: 1px;
-    color: white;
-}
-
 .show_pic {
     margin: 20px 20px 0 20px;
     border: 1px solid #ddd;
     /*text-align: left;*/
 }
-
-.select-pic {
-    margin: 20px 20px 0 20px;
-}
-
-.add-text {
-    margin: 25px 20px;
-}
-
-.text-area {
-    resize: none;
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
 .comment-img {
     float: left;
     font-size: 18px;

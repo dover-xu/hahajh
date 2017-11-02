@@ -31,6 +31,7 @@
 
 #qq .But {
     height: 35px;
+    padding: 5px 0;
     position: relative; /*相对，参考对象*/
 }
 

@@ -11,7 +11,7 @@
             注册
           </div>
           <form @submit.stop.prevent="submit">
-            <div class="form_text_error">{{ error }}</div>
+            <div class="form_text_error">{{ message }}</div>
             <div class="form_text_ipt">
               <input name="username" type="text" placeholder="昵称" v-model="user.username">
             </div>
@@ -64,15 +64,16 @@
           password1: '',
           password2: ''
         },
-        error: ''
+        message: ''
       }
     },
     methods: {
       submit: function () {
-        var formData = JSON.stringify(this.user)
-        var this_ = this
-        this.$axios.post(`${this.GLOBAL.api}/manager/signup`, formData).then(
-          response => {
+        let url = `${this.GLOBAL.api}/manager/signup`
+        let formData = JSON.stringify(this.user)
+        let this_ = this
+        this.$axios.post(url, formData).then(
+          function (response) {
             this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('is_success') && response.data.hasOwnProperty('message')) {
               if (response.data.is_success) {
@@ -80,15 +81,16 @@
               }
             }
           }).catch(
-          response => {
+          function (response) {
             this_.GLOBAL.debug(response)
           })
       }
     },
     created: function () {
-      var this_ = this
-      this.$axios.get(`${this.GLOBAL.api}/manager/signup`).then(
-        response => {
+      let url = `${this.GLOBAL.api}/manager/signup`
+      let this_ = this
+      this.$axios.get(url).then(
+        function (response) {
           this_.GLOBAL.debug(response)
         }
       )

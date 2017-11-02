@@ -15,19 +15,19 @@
         <div class="col-sm-offset-1 col-sm-7 main-left">
           <div>
             <ul class="nav nav-tabs ">
-              <li :class="{active:(tab_current==0)}" v-on:click.prevent="tab_sw(0)">
-                <a href="" v-bind:style="{'color':(tab_current==0)?'#ac483d':''}">推荐</a>
+              <li :class="{active:(tab_current==0)}" @click.prevent="tab_sw(0)">
+                <a href="" :style="{'color':(tab_current==0)?'#ac483d':''}">推荐</a>
               </li>
-              <li :class="{active:(tab_current==1)}" v-on:click.prevent="tab_sw(1)">
-                <a href="" v-bind:style="{'color':(tab_current==1)?'#ac483d':''}">最新</a>
+              <li :class="{active:(tab_current==1)}" @click.prevent="tab_sw(1)">
+                <a href="" :style="{'color':(tab_current==1)?'#ac483d':''}">最新</a>
               </li>
-              <li :class="{active:(tab_current==2)}" v-on:click.prevent="tab_sw(2)">
-                <a href="" v-bind:style="{'color':(tab_current==2)?'#ac483d':''}">最热</a>
+              <li :class="{active:(tab_current==2)}" @click.prevent="tab_sw(2)">
+                <a href="" :style="{'color':(tab_current==2)?'#ac483d':''}">最热</a>
               </li>
             </ul>
           </div>
           <ContentDetail :note_list="note_list" :total="total" :current="current"></ContentDetail>
-          <Pagination :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
+          <Pagination v-if="note_list.length > 0" :total="total" :display="display" :currentPage="current" @pagechange="page_change"></Pagination>
         </div>
         <SideBar></SideBar>
       </div>
@@ -63,9 +63,9 @@
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        var url = `${this.GLOBAL.api}/contents`
-        var this_ = this
-        var params = JSON.stringify({
+        let url = `${this.GLOBAL.api}/contents`
+        let this_ = this
+        let params = JSON.stringify({
           'type': this.tab_cur_head,
           'sort': this.tab_current,
           'current': this.current,
@@ -77,7 +77,7 @@
             this_.user = response.data.user
             if (this_.is_login !== response.data.is_login) {
               this_.is_login = response.data.is_login
-              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
+//              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
             }
 
             this_.note_list = response.data.note_list
@@ -107,12 +107,12 @@
       this.GLOBAL.debug('maincontent created')
       this.Bus.$on('toggleEvent', (target, index) => {
         this_.tab_cur_head = index
+        this_.current = 1
         this_.update_data()
       })
     },
     destroyed: function () {
       this.GLOBAL.debug('main content destroyed')
-//      this.Bus.$off('toggleEvent')
     }
   }
 </script>

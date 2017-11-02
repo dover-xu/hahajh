@@ -1,8 +1,8 @@
 <template>
   <!-- 右侧边栏 -->
   <div class="col-sm-3 hidden-xs main-right">
-    <div class="publish">
-      <a href="/publish">
+    <div class="publish" @click.prevent="check_user_state">
+      <a href="">
         <span class="glyphicon glyphicon-edit"></span>
         <span style="position: relative;bottom: 3px">发帖</span>
       </a>
@@ -32,11 +32,55 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped="scoped">
+  .hxjx {
+    margin: 10px 0;
+  }
 
+  .hxjx-title {
+    background-color: #d43f3a;
+    padding: 2px 5px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: white;
+  }
 </style>
 <script>
     export default {
-      name: 'SideBar'
+      name: 'SideBar',
+      data: function () {
+        return {
+          is_login: false
+//          user: {}
+        }
+      },
+      methods: {
+        check_user_state: function () {
+          let url = `${this.GLOBAL.api}/manager/user_state`
+          let this_ = this
+          this_.$axios.get(url).then(
+            function (response) {
+              if (response.data.hasOwnProperty('is_login')) {
+                this_.is_login = response.data.is_login
+              }
+              if (this_.is_login === true) {
+                window.location.href = '/publish'  // 刷新标题栏
+//                this_.$router.push('/publish')
+              } else {
+                window.location.href = '/login'
+              }
+            }
+          )
+        }
+      },
+      created: function () {
+        this.GLOBAL.debug('sidebar created')
+//        let this_ = this
+//        this.Bus.$on('loginEvent', (isLogin, user) => {
+//          this_.is_login = isLogin
+//          this_.user = user
+//          this_.GLOBAL.debug('login event')
+//        })
+      }
     }
 </script>

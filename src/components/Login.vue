@@ -9,14 +9,14 @@
           </div>
           <form @submit.stop.prevent="submit">
             <!--{% csrf_token %}-->
-            <div class="form_text_error" v-if="error">{{ error }}</div>
+            <div class="form_text_error" v-if="message">{{ message }}</div>
             <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
-              <input name="username" type="text" placeholder="昵称" v-model="user.username">
+              <input name="username" type="text" placeholder="昵称" v-model="user_form.username">
             </div>
             <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_text_ipt">
-              <input name="password" type="password" placeholder="密码" v-model="user.password">
+              <input name="password" type="password" placeholder="密码" v-model="user_form.password">
             </div>
             <!--<div class="ececk_warning"><span>数据不能为空</span></div>-->
             <div class="form_check_ipt">
@@ -59,39 +59,47 @@
   export default {
     data: function () {
       return {
-        user: {
+        user_form: {
           username: '',
           password: ''
         },
-        error: ''
+        message: '',
+        user: {}
       }
     },
     methods: {
       submit: function () {
-        var url = `${this.GLOBAL.api}/manager/login`
-        var formData = JSON.stringify(this.user)
-        var this_ = this
+        let url = `${this.GLOBAL.api}/manager/login`
+        let formData = JSON.stringify(this.user_form)
+        let this_ = this
         this.$axios.post(url, formData).then(
-          response => {
+          function (response) {
             this_.GLOBAL.debug(response)
-            if (response.data.hasOwnProperty('error')) {
-              this_.error = response.data.error
+            if (response.data.hasOwnProperty('message')) {
+              this_.message = response.data.message
             }
-            if (response.data.hasOwnProperty('redirect_url')) {
-              this_.$router.push(response.data.redirect_url)
+            if (response.data.hasOwnProperty('user')) {
+              this_.user = response.data.user
+            }
+            if (response.data.hasOwnProperty('is_login')) {
+              if (response.data.is_login === true) {
+                this_.is_login = true
+                this_.$router.push({path: '/'})
+                this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
+              }
             }
           }).catch(
-          response => {
+          function (response) {
             this_.GLOBAL.debug(response)
           })
       }
     },
     created: function () {
-      this.$axios.get(`${this.GLOBAL.api}/manager/login`).then(
-        response => {
-          this.GLOBAL.debug(response)
-        }
-      )
+//      this.$axios.get(`${this.GLOBAL.api}/manager/login`).then(
+//        response => {
+//          this.GLOBAL.debug(response)
+//        }
+//      )
     }
   }
 </script>

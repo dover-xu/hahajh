@@ -5,45 +5,35 @@
         <!-- 分页内容 -->
         <div class="col-sm-offset-1 col-sm-7 main-left">
           <ul class="nav nav-justified pub-topic hidden-xs">
-            <li style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
-              <a class="active" href="/user/publish/pic">
+            <li :class="{active:(tab_current==0)}" @click.prevent="tab_sw(0)" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+              <a href="" :style="{'color':(tab_current==0)?'#ac483d':''}">
                 <i class="fa fa-picture-o topic-icon"></i>
                 <span>图片</span>
               </a>
             </li>
-            <li style="border-bottom: 1px solid #eee">
-              <a href="/user/publish/jape">
+            <li :class="{active:(tab_current==1)}" @click.prevent="tab_sw(1)" style="border-bottom: 1px solid #eee">
+              <a href="" :style="{'color':(tab_current==1)?'#ac483d':''}">
                 <i class="fa fa-file-text-o topic-icon"></i>
                 <span>段子</span>
               </a>
             </li>
           </ul>
           <ul class="nav pub-topic hidden-sm hidden-md hidden-lg" style="margin-left:20px">
-            <li>
-              <a class="active" href="/user/publish/pic" style="float: left">
+            <li  :class="{active:(tab_current==0)}" @click.prevent="tab_sw(0)" >
+              <a href="" :style="{'color':(tab_current==0)?'#ac483d':''}" style="float: left">
                 <i class="fa fa-picture-o topic-icon"></i>
                 <span>图片</span>
               </a>
             </li>
-            <li>
-              <a href="/user/publish/jape" style="float: left">
+            <li  :class="{active:(tab_current==1)}" @click.prevent="tab_sw(1)" >
+              <a href="" :style="{'color':(tab_current==1)?'#ac483d':''}" style="float: left">
                 <i class="fa fa-file-text-o topic-icon"></i>
                 <span>段子</span>
               </a>
             </li>
           </ul>
-          <!--<form action="http://127.0.0.1:8008/publish" method="post" onsubmit="return empty_check2()" enctype="multipart/form-data">-->
-            <!--<div class="select-pic2">-->
-              <!--<input type="file" name="txt_file" id="txt_file2" class="file-loading2"/>-->
-              <!--<span id="pic-null2">添加图片</span>-->
-            <!--</div>-->
-            <!--<div class="add-text">-->
-              <!--<textarea class="text-area" placeholder="说点什么..." name="text_area" rows="5"></textarea>-->
-            <!--</div>-->
-            <!--<input type="submit" class="pub-trig" value="发布">-->
-          <!--</form>-->
           <div class="edit">
-            <div class="pic">
+            <div class="pic" v-if="tab_current === 0">
               <div>预览</div>
               <div class="img">
                 <img :src="picture" @click="setPic">
@@ -51,15 +41,11 @@
               </div>
               <input type="file" name="pic" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="picInput">
             </div>
-            <!--<div class="my-input">-->
-              <!--<label for="nickname">昵称：</label>-->
-              <!--<input type="text" v-model="nickname" id="nickname">-->
-            <!--</div>-->
             <div class="my-input">
               <!--<label for="intro">简介：</label>-->
               <textarea v-model="text_area" id="text_area" title="text"></textarea>
             </div>
-            <button type="button" @click="edit">确认修改</button>
+            <button type="button" @click="edit">我要发布</button>
           </div>
         </div>
         <!-- 右侧边栏 -->
@@ -71,14 +57,13 @@
   </div>
 </template>
 <style scoped="scoped">
-  @import "/static/focus/css/fileinput.css";
 
   .edit {
     text-align: center;
     padding-top: 0;
   }
   .edit .pic {
-    padding: 30px;
+    padding: 30px 30px 0 30px;
     cursor: pointer;
   }
   .edit .pic div{
@@ -109,6 +94,8 @@
     pointer-events: none;
   }
   .edit .my-input {
+
+    padding-top: 30px;
     padding-bottom: 30px;
   }
   .edit .my-input textarea {
@@ -116,9 +103,17 @@
     height: 200px;
   }
   .edit button[type="button"] {
-    /*color: #FFF;*/
-    /*background-color: #26272B;*/
+    display: block;
+    width: 200px;
+    height: 40px;
+    margin: 20px auto 10px;
+    color: #FFFFFF;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 0 1000px #EB4F38 inset;
   }
+
 </style>
 <script>
 //  import Bus from '@/components/bus.js'
@@ -128,30 +123,33 @@
     data: function () {
       return {
         picture: '/static/focus/images/test_img1.png',
-        text_area: '暂无介绍'
+        text_area: '说点什么呢。。。',
+        tab_current: 0
       }
     },
     methods: {
-      // 修改了管理员信息
       edit () {
-        // 修改了头像
-        if (this.$refs.picInput.files.length !== 0) {
-          let formData = new FormData()
-//          console.log(image)
+        let formData = new FormData()
+        let this_ = this
+        if (this.tab_current === 0) {
           formData.append('pic', this.$refs.picInput.files[0])
-          formData.append('text_area', this.text_area)
-          this.$axios.post('http://127.0.0.1:8008/publish', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+        }
+        formData.append('text_area', this.text_area)
+        this.$axios.post('http://127.0.0.1:8008/publish', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(
+          function (response) {
+            if (response.data.hasOwnProperty('is_success') && response.data.is_success === true) {
+              this_.$router.push('/')
             }
           })
-        }
       },
       // 模拟触发click事件
       setPic () {
         this.$refs.picInput.click()
       },
-
       // 选择新的头像后，可以预览
       changeImage (e) {
         let file = e.target.files[0]
@@ -162,6 +160,10 @@
           console.log(e)
           this_.picture = e.target.result
         }
+      },
+      /*  导航栏切换  */
+      tab_sw: function (index) {
+        this.tab_current = index
       }
     },
     created: function () {

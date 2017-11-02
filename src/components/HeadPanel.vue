@@ -31,8 +31,9 @@
         <div v-if="is_login">
           <ul class="nav navbar-nav navbar-right pull-right top-right">
             <li>
-              <a class="login-name" href="/user"><span
-                class="glyphicon glyphicon-user"></span> {{ user.username }}</a>
+              <a class="login-name" href="/user">
+                <span class="glyphicon glyphicon-user"></span> {{ user.username }}
+              </a>
             </li>
             <li>
               <a href="" @click.stop.prevent="logout">
@@ -44,14 +45,14 @@
         <div v-else>
           <ul class="nav navbar-nav navbar-right pull-right top-right">
             <li>
-              <router-link to="/login">
+              <a href="/login">
                 <span class="glyphicon glyphicon-log-in"></span> 登陆
-              </router-link>
+              </a>
             </li>
             <li>
-              <router-link to="/signup">
+              <a href="/signup">
                 <span class="glyphicon glyphicon-user"></span> 注册
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -113,32 +114,41 @@
         this.GLOBAL.debug('toggleEvent')
       },
       logout: function () {
-        var this_ = this
-        this.$axios.get(`${this.GLOBAL.api}/manager/logout/`).then(
+        let this_ = this
+        this.$axios.get(`${this.GLOBAL.api}/manager/logout`).then(
           response => {
             if (response.data.hasOwnProperty('is_login')) {
               this_.is_login = response.data.is_login
             }
-            if (response.data.hasOwnProperty('redirect_url')) {
-              this_.$router.push(response.data.redirect_url)
-            }
+            this_.$router.push('/')
             this.GLOBAL.debug('logout')
+          }
+        )
+      },
+      update_user_state: function () {
+        let url = `${this.GLOBAL.api}/manager/user_state`
+        let this_ = this
+        this_.$axios.get(url).then(
+          function (response) {
+            if (response.data.hasOwnProperty('is_login')) {
+              this_.is_login = response.data.is_login
+            }
+            if (response.data.hasOwnProperty('user')) {
+              this_.user = response.data.user
+            }
           }
         )
       }
     },
     created: function () {
-      if (this.$route.path === '/') {
-        this.is_home_page = true
-      } else {
-        this.is_home_page = false
-      }
+      this.is_home_page = this.$route.path === '/'
       this.GLOBAL.debug('headpanel created')
-      var this_ = this
+      this.update_user_state()
+      let this_ = this
       this.Bus.$on('loginEvent', (isLogin, user) => {
         this_.is_login = isLogin
         this_.user = user
-        this.GLOBAL.debug('login event')
+        this_.GLOBAL.debug('login event')
       })
     },
     destroyed: function () {

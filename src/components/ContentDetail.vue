@@ -15,7 +15,7 @@
           </div>
           <!-- 发布内容 -->
           <div class="cont">
-            <router-link :to="'/detail/' + note.id">
+            <a :href="'/detail/' + note.id">
               <div v-if="note.text">
                 <div class="c-text">{{ note.text }}</div>
               </div>
@@ -25,25 +25,25 @@
                        class="img-responsive center-block" width="100%">
                 </div>
               </div>
-            </router-link>
+            </a>
           </div>
           <!-- 工具条 -->
           <div class="tool-bar" :data-id="note.id">
             <div style="float:left;height:100%;">
               <div class="praise-1">
-                        <span class="praise-2">
-                          <!--{% if note.P %}-->
-                          <div v-if="note.P">
-                              <img src="/static/focus/images/yizan.png"
-                                   class="praise-img">
-                          </div>
-                          <div v-else>
-                          <!--{% else %}-->
-                              <img src="/static/focus/images/zan.png"
-                                   class="praise-img">
-                          </div>
-                          <!--{% endif %}-->
-                          </span>
+                <span class="praise-2">
+                  <!--{% if note.P %}-->
+                  <div v-if="note.P">
+                      <img src="/static/focus/images/yizan.png"
+                           class="praise-img">
+                  </div>
+                  <div v-else>
+                  <!--{% else %}-->
+                      <img src="/static/focus/images/zan.png"
+                           class="praise-img">
+                  </div>
+                  <!--{% endif %}-->
+                  </span>
               </div>
               <span class="praise-txt">{{ note.praise_str }}</span>
               <span class="add-num-praise">
