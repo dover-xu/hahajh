@@ -340,10 +340,7 @@
         this.$axios.post(url, params).then(
           response => {
             this_.user = response.data.user
-            if (this_.is_login !== response.data.is_login) {
-              this_.is_login = response.data.is_login
-//              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
-            }
+            this_.is_login = response.data.is_login
             this_.note_list = response.data.note_list
             this_.total = response.data.total
             this_.current = response.data.current

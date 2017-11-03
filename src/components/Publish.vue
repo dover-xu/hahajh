@@ -130,12 +130,13 @@
     methods: {
       edit () {
         let formData = new FormData()
+        let url = `${this.GLOBAL.api}/publish`
         let this_ = this
         if (this.tab_current === 0) {
           formData.append('pic', this.$refs.picInput.files[0])
         }
         formData.append('text_area', this.text_area)
-        this.$axios.post('http://127.0.0.1:8008/publish', formData, {
+        this.$axios.post(url, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }

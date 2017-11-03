@@ -51,7 +51,7 @@
                   </div>
                   <span>
                       <span class="glyphicon glyphicon-comment comment-img"></span>
-                      <span class="comment-txt" ref="comment_txt">{{ note.comment_str }}</span>
+                      <span class="comment-txt">{{ note.comment_str }}</span>
                   </span>
                   <div class="bdsharebuttonbox" style="float:right;padding:8.5px 10px">
                     <a href="#" class="bds_more" data-cmd="more" style="color:#d5d5d5"></a>
@@ -64,9 +64,9 @@
             </ul>
           </div>
           <div id="qq">
-            <p style="text-align: left" ref="comment_cnt">评论({{ note.comment_str }})</p>
-            <div v-model="content"> </div>
-            <div class="message" contentEditable='true'></div>
+            <p style="text-align: left">评论({{ note.comment_str }})</p>
+            <!--<div class="message" contentEditable='true'></div>-->
+            <textarea name="edit_text" id="edit_text" class="message" v-model="text" title="edit_text"></textarea>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
               <span class='submit' @click="push">发表</span>
@@ -237,7 +237,7 @@
         display: 5,
         has_praise: false,
         has_tread: false,
-        content: 'aadf'
+        text: 'asd'
       }
     },
     methods: {
@@ -254,11 +254,9 @@
         this.$axios.post(url, params).then(
           response => {
             this_.user = response.data.user
-            if (this_.is_login !== response.data.is_login) {
-              this_.is_login = response.data.is_login
-//              this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
-            }
+            this_.is_login = response.data.is_login
             this_.note = response.data.note
+            this_.comments = response.data.comments
             this_.total = response.data.total
             this_.display = response.data.display
             this_.current = response.data.current
@@ -270,52 +268,22 @@
             this_.GLOBAL.debug(response)
           })
       },
-      // 修改了管理员信息
       push: function () {
         if (this.is_login) {
-          let txt = this.target.html()
-          if (txt === '') {
-            this.target.focus()  // 自动获取焦点
-            return
-          }
-          this.$refs.msgCon.prepend(
-            "<div class='msgBox'>" +
-            "<dl>" +
-            "<dt>" +
-            "<img src='{{ note.user.avatar.url }}' alt='头像无法显示' width='50' height='50'/>" +
-            "</dt>" +
-            "<dd> {{ note.user.username }}</dd>" +
-            "</dl>" +
-            "<div class='msgTxt'>" + txt + "</div>" +
-            "</div>")
-//          let this_ = this
-          this.$axios.post("/api/a-c/", {
+          let this_ = this
+          let url = `${this.GLOBAL.api}/api/a-c`
+          this.$axios.post(url, JSON.stringify({
             'note_id': this.note.id,
-            txt: txt
-          }).then(
-            function (data) {
-//              this_.$refs.comment_cnt.html("评论(" + data + ")")
-//              this_.$refs.comment_txt.html(data)
+            'text': this.text
+          })).then(
+            function (response) {
+              this_.$router.go(0)
             }
           )
         } else {
           location.href = "/manager/login/?url=/detail_" + this.note.id
         }
       }
-//        // 修改了头像
-//        if (this.$refs.picInput.files.length !== 0) {
-//          let formData = new FormData()
-//          if (this.tab_current === 0) {
-//            formData.append('pic', this.$refs.picInput.files[0])
-//          }
-//          formData.append('text_area', this.text_area)
-//          this.$axios.post('http://127.0.0.1:8008/publish', formData, {
-//            headers: {
-//              'Content-Type': 'multipart/form-data'
-//            }
-//          })
-//        }
-//      }
     },
     created: function () {
       this.GLOBAL.debug('Detail created')

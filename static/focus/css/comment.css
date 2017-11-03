@@ -21,12 +21,13 @@
 }
 
 #qq .message {
-    /*width:560px;*/
-    text-align: left;
-    height: 70px;
-    margin: 0 auto;
-    outline: none;
-    border: 1px solid #ddd; /*粗细 风格 颜色*/
+  width: 592px;
+  height: 70px;
+  padding: 5px;
+  text-align: left;
+  margin: 0 auto;
+  outline: none;
+  border: 1px solid #ddd; /*粗细 风格 颜色*/
 }
 
 #qq .But {
@@ -51,7 +52,7 @@
     color: #fff;
     font-size: 12px;
     text-align: center;
-    font-family: "微软雅黑";
+    /*font-family: "微软雅黑";*/
 }
 
 /*face begin*/
@@ -110,7 +111,7 @@
     line-height: 50px;
     float: left;
     font-size: 16px;
-    font-family: "微软雅黑";
+    font-family: '微软雅黑';
     margin-left: 10px;
 }
 
@@ -119,4 +120,6 @@
     color: #666;
     line-height: 25px;
     border-bottom: 1px solid #ddd;
+    text-align: left;
+    /*width: 592px;*/
 }
