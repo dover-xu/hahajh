@@ -1,7 +1,8 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="section">
     <div class="container">
       <div class="row">
+        <!-- 小屏兼容 -->
         <div class="hidden-sm hidden-md hidden-lg main-left-s">
           <table border="0">
             <tr>
@@ -131,9 +132,9 @@
         <div class="col-sm-3 hidden-xs main-right">
           <div style="text-align: left">
             <span style="">
-                <a href="/manager/setting">
+                <router-link to="/setting">
                     <img :src="user.avatar" alt="头像无法显示" class="info-avatar">
-                </a>
+                </router-link>
             </span>
             <span class="info-name"> {{ user.username }} </span>
             <div class="tips-name"> {{ user.username }} </div>
@@ -330,9 +331,9 @@
       },
       update_data: function () {
         this.GLOBAL.debug('user created')
-        var url = `${this.GLOBAL.api}/ucenter`
-        var this_ = this
-        var params = JSON.stringify({
+        let url = `${this.GLOBAL.api}/ucenter`
+        let this_ = this
+        let params = JSON.stringify({
           'type': this.tab_current,
           'current': this.current,
           'display': this.display

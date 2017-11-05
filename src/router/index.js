@@ -8,6 +8,7 @@ import Publish from '@/components/Publish'
 import Signup from '@/components/Signup'
 import User from '@/components/User'
 import Notice from '@/components/Notice'
+import Setting from '@/components/Setting'
 
 Vue.use(Router)
 
@@ -43,6 +44,10 @@ export default new Router({
     {
       path: '/user',
       component: User
+    },
+    {
+      path: '/setting',
+      component: Setting
     },
     {
       name: 'notice',

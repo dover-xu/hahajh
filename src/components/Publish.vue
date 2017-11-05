@@ -94,7 +94,6 @@
     pointer-events: none;
   }
   .edit .my-input {
-
     padding-top: 30px;
     padding-bottom: 30px;
   }
