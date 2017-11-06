@@ -45,26 +45,21 @@
               </div>
               <input type="file" name="pic" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="picInput">
             </div>
-            <!--<div class="my-input">-->
-              <!--&lt;!&ndash;<label for="intro">简介：</label>&ndash;&gt;-->
-              <!--<textarea v-model="text_area" id="text_area" title="text"></textarea>-->
-            <!--</div>-->
-
             <table border="1" class="table">
               <tr>
                 <td align="right"><label style="color:#888">用户名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><label style="float:left;">{{ user.username }}</label></td>
+                <td align="left"><input v-model="user.username"/></td>
               </tr>
               <tr>
                 <td align="right"><label style="color:#888">性别</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><label>{{ user.sex }}</label></td>
+                <td align="left"><input v-model="user.sex"></td>
               </tr>
               <tr>
                 <td align="right"><label style="color:#888">个性签名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><label>{{ user.profile }}</label></td>
+                <td align="left"><input v-model="user.profile"></td>
               </tr>
             </table>
             <button type="button" @click="edit">确认修改</button>
@@ -319,7 +314,11 @@
     name: 'Notice',
     data: function () {
       return {
-        user: {},
+        user: {
+          username: 'name',
+          sex: 'm',
+          profile: 'nothing'
+        },
         picture: '/static/focus/images/test_img1.png',
 //        text_area: 'tttt',
         is_login: false,
@@ -345,18 +344,21 @@
       },
       edit () {
         let formData = new FormData()
-        let url = `${this.GLOBAL.api}/publish`
+        let url = `${this.GLOBAL.api}/manager/setting`
         let this_ = this
         formData.append('pic', this.$refs.picInput.files[0])
-//        formData.append('text_area', this.text_area)
+        formData.append('username', this.user.username)
+        formData.append('sex', this.user.sex)
+        formData.append('profile', this.user.profile)
         this.$axios.post(url, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         }).then(
           function (response) {
+            this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('is_success') && response.data.is_success === true) {
-              this_.$router.push('/')
+//              this_.$router.push('/')
             }
           })
       },
