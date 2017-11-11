@@ -49,17 +49,17 @@
               <tr>
                 <td align="right"><label style="color:#888">用户名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><input v-model="user.username"/></td>
+                <td align="left">{{ user.username }}</td>
               </tr>
               <tr>
                 <td align="right"><label style="color:#888">性别</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><input v-model="user.sex"></td>
+                <td align="left">{{ user.sex }}</td>
               </tr>
               <tr>
                 <td align="right"><label style="color:#888">个性签名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left"><input v-model="user.profile"></td>
+                <td align="left">{{ user.profile }}</td>
               </tr>
             </table>
             <button type="button" @click="edit">确认修改</button>
@@ -328,7 +328,7 @@
     },
     methods: {
       update_user_state: function () {
-        let url = `${this.GLOBAL.api}/manager/user_state`
+        let url = `${this.GLOBAL.api}/manager/user_state/`
         let this_ = this
         this_.$axios.get(url).then(
           function (response) {
@@ -344,7 +344,7 @@
       },
       edit () {
         let formData = new FormData()
-        let url = `${this.GLOBAL.api}/manager/setting`
+        let url = `${this.GLOBAL.api}/manager/setting/`
         let this_ = this
         formData.append('pic', this.$refs.picInput.files[0])
         formData.append('username', this.user.username)

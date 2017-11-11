@@ -63,7 +63,7 @@
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        let url = `${this.GLOBAL.api}/contents`
+        let url = `${this.GLOBAL.api}/contents/`
         let this_ = this
         let params = JSON.stringify({
           'type': this.tab_cur_head,

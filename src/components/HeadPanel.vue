@@ -115,7 +115,7 @@
       },
       logout: function () {
         let this_ = this
-        this.$axios.get(`${this.GLOBAL.api}/manager/logout`).then(
+        this.$axios.get(`${this.GLOBAL.api}/manager/logout/`).then(
           response => {
             if (response.data.hasOwnProperty('is_login')) {
               this_.is_login = response.data.is_login
@@ -126,7 +126,7 @@
         )
       },
       update_user_state: function () {
-        let url = `${this.GLOBAL.api}/manager/user_state`
+        let url = `${this.GLOBAL.api}/manager/user_state/`
         let this_ = this
         this_.$axios.get(url).then(
           function (response) {
