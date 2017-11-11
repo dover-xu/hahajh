@@ -129,7 +129,7 @@
     methods: {
       edit () {
         let formData = new FormData()
-        let url = `${this.GLOBAL.api}/publish`
+        let url = `${this.GLOBAL.api}/publish/`
         let this_ = this
         if (this.tab_current === 0) {
           formData.append('pic', this.$refs.picInput.files[0])

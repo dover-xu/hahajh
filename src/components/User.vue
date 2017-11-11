@@ -331,7 +331,7 @@
       },
       update_data: function () {
         this.GLOBAL.debug('user created')
-        let url = `${this.GLOBAL.api}/ucenter`
+        let url = `${this.GLOBAL.api}/ucenter/`
         let this_ = this
         let params = JSON.stringify({
           'type': this.tab_current,

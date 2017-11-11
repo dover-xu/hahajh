@@ -69,7 +69,7 @@
     },
     methods: {
       submit: function () {
-        let url = `${this.GLOBAL.api}/manager/login`
+        let url = `${this.GLOBAL.api}/manager/login/`
         let formData = JSON.stringify(this.user_form)
         let this_ = this
         this.$axios.post(url, formData).then(
@@ -95,7 +95,7 @@
       }
     },
     created: function () {
-//      this.$axios.get(`${this.GLOBAL.api}/manager/login`).then(
+//      this.$axios.get(`${this.GLOBAL.api}/manager/login/`).then(
 //        response => {
 //          this.GLOBAL.debug(response)
 //        }

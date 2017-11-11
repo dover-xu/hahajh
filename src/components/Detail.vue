@@ -243,7 +243,7 @@
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        let url = `${this.GLOBAL.api}/details`
+        let url = `${this.GLOBAL.api}/details/`
         let this_ = this
         let params = JSON.stringify({
           'id': this.$route.params['id'],
@@ -271,7 +271,7 @@
       push: function () {
         if (this.is_login) {
           let this_ = this
-          let url = `${this.GLOBAL.api}/api/a-c`
+          let url = `${this.GLOBAL.api}/api/a-c/`
           this.$axios.post(url, JSON.stringify({
             'note_id': this.note.id,
             'text': this.text
