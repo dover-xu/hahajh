@@ -32,7 +32,7 @@
             <div style="float:left;height:100%;">
               <div class="praise-1">
                 <span class="praise-2">
-                  <img :src="note.Praised?'/static/focus/images/yizan.png':'/static/focus/images/zan.png'" class="praise-img" @click="praise_tread(note, 'praise')">
+                  <img :src="note.Praised?'/static/focus/images/yizan.png':'/static/focus/images/zan.png'" class="praise-img" @click="praise_tread_share(note, 'praise')">
                 </span>
               </div>
               <span class="praise-txt">{{ note.praise_str }}</span>
@@ -41,7 +41,7 @@
               </span>
               <div class="tread-1">
                 <span class="tread-2">
-                  <img :src="note.Treaded ? '/static/focus/images/yicai.png':'/static/focus/images/cai.png'" class="praise-img" @click="praise_tread(note, 'tread')">
+                  <img :src="note.Treaded ? '/static/focus/images/yicai.png':'/static/focus/images/cai.png'" class="praise-img" @click="praise_tread_share(note, 'tread')">
                 </span>
               </div>
               <span class="tread-txt">{{ note.tread_str }}</span>
@@ -82,7 +82,7 @@
       return {}
     },
     methods: {
-      praise_tread: function (note, action) {
+      praise_tread_share: function (note, action) {
         let url = `${this.GLOBAL.api}/api/a-p-t-s/`
         let jsonData = JSON.stringify({'note_id': note.id, 'action': action})
         if ((note.Praised === true) || (note.Treaded === true)) return
