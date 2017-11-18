@@ -62,7 +62,7 @@
 </template>
 <style scoped="scoped">
   .top {
-    background:#d43f3a;
+    background:#d43f3a !important;
   }
   .top-title span,.top-left a,.top-right a {
     color: #eee !important;

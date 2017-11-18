@@ -3,7 +3,7 @@
   var debug = function (info) {
     if (isDebug) console.log(info)
   }
-  const api = 'http://127.0.0.1:8008'
+  const api = 'http://119.27.181.193:8077'
   export default {
     api, debug
   }
