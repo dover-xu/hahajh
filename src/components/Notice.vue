@@ -8,7 +8,7 @@
       </div>
     </div>
 </template>
-<style scoped="scoped">
+<style scoped>
   .notice {
     width: 400px;
     margin: 50px auto;

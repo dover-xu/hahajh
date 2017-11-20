@@ -60,7 +60,7 @@
     </div>
   </div>
 </template>
-<style scoped="scoped">
+<style scoped>
   .top {
     background:#d43f3a !important;
   }

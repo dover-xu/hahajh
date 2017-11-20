@@ -85,7 +85,7 @@
   }
 </script>
 
-<style scoped="scoped">
+<style scoped>
   .pagination {
     overflow: hidden;
     display: table;

@@ -98,7 +98,7 @@
       }
     },
     created: function () {
-      var this_ = this
+      let this_ = this
       this_.update_data()
       this.GLOBAL.debug('maincontent created')
       this.Bus.$on('toggleEvent', (target, index) => {

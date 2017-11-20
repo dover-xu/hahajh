@@ -5,7 +5,7 @@
     <p>Copyright &copy; Example.com 2016 </p>
   </div>
 </template>
-<style scoped="scoped">
+<style scoped>
 
   .footer {
     padding: 8px 0 5px 0;
