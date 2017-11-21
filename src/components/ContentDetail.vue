@@ -83,24 +83,7 @@
     },
     methods: {
       praise_tread_share: function (note, action) {
-        let url = `${this.GLOBAL.api}/api/a-p-t-s/`
-        let jsonData = JSON.stringify({'note_id': note.id, 'action': action})
-        if ((note.Praised === true) || (note.Treaded === true)) return
-        this.$axios.post(url, jsonData).then(
-          function (response) {
-            if (response.data.is_success) {
-              if (action === 'praise') {
-                note.Praised = true
-                note.praise_str = String(response.data.praise_num)
-              } else if (action === 'tread') {
-                note.Treaded = true
-                note.tread_str = String(response.data.tread_num)
-              } else if (action === 'share') {
-                note.share_str = String(response.data.share_num)
-              }
-            }
-          }
-        )
+        this.GLOBAL.praise_tread_share(this, note, action)
       }
     },
     created: function () {

@@ -7,6 +7,7 @@ import VueResource from 'vue-resource'
 import global_ from '@/components/Global'
 import axios from 'axios'
 import Bus from '@/components/bus.js'
+
 // import {getCookie} from './util/util.js'
 //
 // function csrfSafeMethod (method) {

@@ -72,7 +72,7 @@
                 <li class="nav" style="border-bottom: 1px solid #d5d5d5;">
                   <!-- 基本信息 -->
                   <div class="u-bar" data-id="note.id">
-                    <a href="/api/del?note_id=note.id&url=/user/focus/publish">
+                    <a href="" @click.prevent="del_note(note.id)">
                       <span class="pull-left note-info glyphicon glyphicon-remove"></span>
                     </a>
                     <span class="pull-left pub-time"> {{ note.pub_date }} </span>
@@ -80,8 +80,7 @@
                       <div class="total-bar">
                         <div class="praise-1">
                         <span class="praise-2">
-                            <img src="/static/focus/images/zan.png"
-                                 class="praise-img">
+                          <img :src="note.Praised?'/static/focus/images/yizan.png':'/static/focus/images/zan.png'" class="praise-img" @click.prevent="praise_tread_share(note, 'praise')">
                         </span>
                         </div>
                         <span class="praise-txt"> {{ note.praise_str }} </span>
@@ -90,7 +89,7 @@
                         </span>
                         <div class="tread-1">
                           <span class="tread-2">
-                              <img src="/static/focus/images/cai.png" class="tread-img">
+                              <img :src="note.Treaded ? '/static/focus/images/yicai.png':'/static/focus/images/cai.png'" class="tread-img" @click.prevent="praise_tread_share(note, 'tread')">
                           </span>
                         </div>
                         <span class="tread-txt"> {{ note.tread_str }} </span>
@@ -331,7 +330,7 @@
       },
       update_data: function () {
         this.GLOBAL.debug('user created')
-        let url = `${this.GLOBAL.api}/ucenter/`
+        let url = `${this.GLOBAL.api}/api/ucenter/`
         let this_ = this
         let params = JSON.stringify({
           'type': this.tab_current,
@@ -345,7 +344,7 @@
             this_.note_list = response.data.note_list
             this_.total = response.data.total
             this_.current = response.data.current
-            console.log(response)
+            this_.GLOBAL.debug(response)
           }
         ).catch(
           response => {
@@ -356,6 +355,22 @@
       tab_sw: function (index) {
         this.tab_current = index
         this.update_data()
+      },
+      praise_tread_share: function (note, action) {
+        this.GLOBAL.praise_tread_share(this, note, action)
+      },
+      /*  删帖  */
+      del_note: function (id) {
+        let url = `${this.GLOBAL.api}/api/del/`
+        let this_ = this
+        let params = JSON.stringify({
+          'note_id': id
+        })
+        this.$axios.post(url, params).then(
+          response => {
+            this_.GLOBAL.debug(response)
+          }
+        )
       }
     },
     created: function () {

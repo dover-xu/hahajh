@@ -1,17 +1,11 @@
-<script>
-  /* eslint-disable no-trailing-spaces,object-property-newline */
+/* eslint-disable camelcase */
+from
+const api = 'http://119.27.181.193:8077'
+const isDebug = true
 
-  /* eslint-disable camelcase */
-  const api = 'http://119.27.181.193:8077'
-
-  let isDebug = true
-  let debug = function (info) {
-    if (isDebug) console.log(info)
-  }
-
-  export default {
-    api, debug,
-    praise_tread_share: function (Vue, note, action) {
+const MyPlugin = {
+  install (Vue, options) {
+    Vue.prototype.$praise_tread_share = function (note, action) {
       let url = `${api}/api/a-p-t-s/`
       let jsonData = JSON.stringify({'note_id': note.id, 'action': action})
       if ((note.Praised === true) || (note.Treaded === true)) return
@@ -31,5 +25,10 @@
         }
       )
     }
+    Vue.prototype.$api = api
+    Vue.prototype.$debug = function (info) {
+      if (isDebug) console.log(info)
+    }
   }
-</script>
+}
+export default MyPlugin

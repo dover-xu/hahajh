@@ -4,15 +4,13 @@
       <div class="row">
         <!-- 分页内容 -->
         <div class="col-sm-offset-1 col-sm-7 main-left">
-          <div class="note">
+          <div v-if="note">
             <ul class="list-unstyled">
               <li class="nav" style="border-bottom: 1px solid #d5d5d5;">
                 <!-- 用户信息 -->
                 <div class="u-bar">
                   <span class="pull-left">
-                      <a href="#">
-                          <img :src="note.user.avatar" alt="头像无法显示" class="u-img">
-                      </a>
+                    <img :src="note.user.avatar" alt="头像无法显示" class="u-img">
                   </span>
                   <span class="pull-left u-name">{{ note.user.username }}</span>
                   <span class="pull-right pub-time">{{ note.pub_date }}</span>
@@ -30,8 +28,7 @@
                   <div style="float:left;height:100%;">
                     <div class="praise-1">
                       <span class="praise-2">
-                        <img v-if="has_praise" src="/static/focus/images/yizan.png" class="praise-img">
-                        <img v-else="" src="/static/focus/images/zan.png" class="praise-img">
+                        <img :src="note.Praised?'/static/focus/images/yizan.png':'/static/focus/images/zan.png'" class="praise-img" @click="praise_tread_share(note, 'praise')">
                       </span>
                     </div>
                     <span class="praise-txt">{{ note.praise_str }}</span>
@@ -40,8 +37,7 @@
                     </span>
                     <div class="tread-1">
                       <span class="tread-2">
-                        <img v-if="has_tread" src="/static/focus/images/yicai.png" class="tread-img">
-                        <img v-else="" src="/static/focus/images/cai.png" class="tread-img">
+                        <img :src="note.Treaded?'/static/focus/images/yicai.png':'/static/focus/images/cai.png'" class="tread-img" @click="praise_tread_share(note, 'tread')">
                       </span>
                     </div>
                     <span class="tread-txt">{{ note.tread_str }}</span>
@@ -231,19 +227,20 @@
         user: {},
         is_login: false,
         note: {
-          user: {}},
+          user: {
+            avatar: ''
+          }
+        },
         comments: [],
         current: 1,
         display: 5,
-        has_praise: false,
-        has_tread: false,
         text: 'asd'
       }
     },
     methods: {
       /*  请求和刷新内容  */
       update_data: function () {
-        let url = `${this.GLOBAL.api}/details/`
+        let url = `${this.GLOBAL.api}/api/details/`
         let this_ = this
         let params = JSON.stringify({
           'id': this.$route.params['id'],
@@ -260,8 +257,6 @@
             this_.total = response.data.total
             this_.display = response.data.display
             this_.current = response.data.current
-            this_.has_praise = response.data.has_praise
-            this_.has_tread = response.data.has_tread
             console.log(response)
           }).catch(
           response => {
@@ -284,6 +279,9 @@
           location.href = "/manager/login/?url=/detail_" + this.note.id
         }
       }
+    },
+    praise_tread_share: function (note, action) {
+      this.GLOBAL.praise_tread_share(this, note, action)
     },
     created: function () {
       this.GLOBAL.debug('Detail created')
