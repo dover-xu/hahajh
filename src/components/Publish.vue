@@ -142,7 +142,7 @@
         }).then(
           function (response) {
             if (response.data.hasOwnProperty('is_success') && response.data.is_success === true) {
-              this_.$router.push('/')
+              this_.$router.go(0)
             }
           })
       },
@@ -157,7 +157,6 @@
         let this_ = this
         reader.readAsDataURL(file)
         reader.onload = function (e) {
-          console.log(e)
           this_.picture = e.target.result
         }
       },

@@ -45,21 +45,28 @@
               </div>
               <input type="file" name="pic" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="picInput">
             </div>
-            <table border="1" class="table">
+            <table border="0" class="table" style="font-size: 15px">
               <tr>
-                <td align="right"><label style="color:#888">用户名</label></td>
+                <td align="right" style="color:#888;width:200px"><label>用户名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left">{{ user.username }}</td>
+                <td align="left" style="width: 200px">
+                  <input type="text" v-model="user.username" title="username" style="width: 135px"/>
+                </td>
               </tr>
               <tr>
-                <td align="right"><label style="color:#888">性别</label></td>
+                <td align="right" style="color:#888;width:200px"><label>性别</label></td>
                 <td style="width: 10px"></td>
-                <td align="left">{{ user.sex }}</td>
+                <td align="left" style="width: 200px">
+                  <input type="radio" value="m" title="male" :checked="{checked:user.sex==='m'}" v-model="user.sex" style="border: none"/> 男
+                  <input type="radio" value="f" title="female" :checked="{checked:user.sex==='f'}" v-model="user.sex" style="border: none"/> 女
+                </td>
               </tr>
               <tr>
-                <td align="right"><label style="color:#888">个性签名</label></td>
+                <td align="right" style="color:#888;width:200px;padding: 0"><label>个性签名</label></td>
                 <td style="width: 10px"></td>
-                <td align="left">{{ user.profile }}</td>
+                <td align="left" style="width: 200px;padding: 0">
+                  <textarea v-model="user.profile" title="profile" style="width: 135px;height: 100px;padding: 4px"></textarea>
+                </td>
               </tr>
             </table>
             <button type="button" @click="edit">确认修改</button>
@@ -262,7 +269,7 @@
     position: relative;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 5%;
+    border-radius: 50%;
   }
   .edit .pic .img img {
     width: 100px;
@@ -315,9 +322,9 @@
     data: function () {
       return {
         user: {
-          username: 'name',
+          username: '',
           sex: 'm',
-          profile: 'nothing'
+          profile: ''
         },
         picture: '/static/focus/images/test_img1.png',
 //        text_area: 'tttt',
@@ -346,7 +353,7 @@
         let formData = new FormData()
         let url = `${this.GLOBAL.api}/manager/setting/`
         let this_ = this
-        formData.append('pic', this.$refs.picInput.files[0])
+        formData.append('pic_file', this.$refs.picInput.files[0])
         formData.append('username', this.user.username)
         formData.append('sex', this.user.sex)
         formData.append('profile', this.user.profile)
@@ -358,7 +365,7 @@
           function (response) {
             this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('is_success') && response.data.is_success === true) {
-//              this_.$router.push('/')
+              this_.$router.go(0)
             }
           })
       },
