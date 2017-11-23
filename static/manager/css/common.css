@@ -158,9 +158,11 @@ header {
 }
 
 .form_text_ipt input {
-    width: 290px;
-    height: 30px;
-    margin: 5px;
+    width: 298px;
+    height: 38px;
+    border: 1px;
+    margin: 0;
+    padding: 2px;
     border: none;
     font-family: "微软雅黑";
     font-size: 15px;

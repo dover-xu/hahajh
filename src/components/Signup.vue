@@ -1,11 +1,8 @@
 <template>
   <div class="wrap login_wrap">
     <div class="cont">
-
       <div class="logo"></div>
-
       <div class="login_box">
-
         <div class="login_form">
           <div class="login_title">
             注册
@@ -21,13 +18,6 @@
             <div class="form_text_ipt">
               <input name="password2" type="password" placeholder="确认密码" v-model="user.password2">
             </div>
-            <!--{% for field in form %}-->
-            <!--<div class="form_text_ipt">-->
-              <!--{{ field }}-->
-              <!--<div class="field_error" style="color: red;font-size: 12px;">{{ field.errors }}</div>-->
-            <!--</div>-->
-            <!--{#                        <div class="ececk_warning"><span>数据不能为空</span></div>#}-->
-            <!--{% endfor %}-->
             <input type="submit" class="form_btn" value="注册">
             <div class="form_reg_btn">
               <span>已有帐号？</span><router-link to="/login">马上登录</router-link>
@@ -74,10 +64,13 @@
         let this_ = this
         this.$axios.post(url, formData).then(
           function (response) {
-            this_.GLOBAL.debug(response)
             if (response.data.hasOwnProperty('is_success') && response.data.hasOwnProperty('message')) {
               if (response.data.is_success) {
-                this_.$router.push({name: '/notice', params: {message: response.data.message}})
+                this_.$router.push({name: 'notice', params: {message: response.data.message}})
+//                this_.$router.push({path: '/notice'})
+                this_.GLOBAL.debug(response)
+              } else {
+                this_.message = response.data.message
               }
             }
           }).catch(
