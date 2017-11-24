@@ -4,8 +4,8 @@
     <div class="container">
       <div class="row">
         <div class="hidden-sm hidden-md hidden-lg main-left">
-          <div class="publish">
-            <a href="/user/publish/pic">
+          <div class="publish" @click.prevent="check_user_state">
+            <a href="">
               <span class="glyphicon glyphicon-edit"></span>
               <span style="position: relative;bottom: 3px">发帖</span>
             </a>
@@ -95,6 +95,23 @@
       page_change: function (cur) {
         this.current = cur
         this.update_data()
+      },
+      check_user_state: function () {
+        let url = `${this.GLOBAL.api}/manager/user_state/`
+        let this_ = this
+        this_.$axios.get(url).then(
+          function (response) {
+            if (response.data.hasOwnProperty('is_login')) {
+              this_.is_login = response.data.is_login
+            }
+            if (this_.is_login === true) {
+              window.location.href = '/publish'  // 刷新标题栏
+//                this_.$router.push('/publish')
+            } else {
+              window.location.href = '/login'
+            }
+          }
+        )
       }
     },
     created: function () {

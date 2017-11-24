@@ -13,8 +13,7 @@
         </button>
       </div>
       <div>
-        <div v-if="is_home_page">
-          <ul class="nav navbar-nav top-left">
+          <ul class="nav navbar-nav top-left" v-if="is_home_page">
               <li style="float:left" :class="{active:(tab_current==0)}" @click.prevent="toggle($event, 0)" >
                 <a href="" :style="{'background':(tab_current==0)?'#ac2925':''}" >全部</a>
               </li>
@@ -25,11 +24,9 @@
                 <a href="" :style="{'background':(tab_current==2)?'#ac2925':''}" >段子</a>
               </li>
           </ul>
-        </div>
       </div>
       <div class="collapse navbar-collapse" id="navbar-ex-collapse">
-        <div v-if="is_login">
-          <ul class="nav navbar-nav navbar-right pull-right top-right">
+          <ul v-if="is_login" class="nav navbar-nav navbar-right pull-right top-right">
             <li>
               <a class="login-name" href="/user">
                 <span class="glyphicon glyphicon-user"></span> {{ user.username }}
@@ -41,9 +38,7 @@
               </a>
             </li>
           </ul>
-        </div>
-        <div v-else>
-          <ul class="nav navbar-nav navbar-right pull-right top-right">
+          <ul v-if="!is_login" class="nav navbar-nav navbar-right pull-right top-right">
             <li>
               <a href="/login">
                 <span class="glyphicon glyphicon-log-in"></span> 登陆
@@ -55,7 +50,6 @@
               </a>
             </li>
           </ul>
-        </div>
       </div>
     </div>
   </div>
