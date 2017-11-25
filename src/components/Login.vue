@@ -49,7 +49,7 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style scoped="scoped">
   @import '/static/manager/css/common.css';
   @import '/static/manager/css/reset.css';
 
