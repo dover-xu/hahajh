@@ -11,22 +11,18 @@
       <div class="hxjx-title">欢笑精选</div>
       <div class="row">
         <div class="col-md-6">
-          1
-          <!--<a><img src="{{ note_jx.0.image }}" class="img-responsive"></a>-->
+          <a :href="note_haha_list[0].detail_url">{{ note_haha_list[0].text }}<img :src="note_haha_list[0].image_crop?note_haha_list[0].image_crop:note_haha_list[0].image" class="hxjx-sidebar img-responsive"></a>
         </div>
         <div class="col-md-6">
-          2
-          <!--<a><img src="{{ note_jx.1.image }}" class="img-responsive"></a>-->
+          <a :href="note_haha_list[1].detail_url">{{ note_haha_list[1].text }}<img :src="note_haha_list[1].image_crop?note_haha_list[1].image_crop:note_haha_list[1].image" class="hxjx-sidebar img-responsive"></a>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          3
-          <!--<a><img src="{{ note_jx.2.image }}" class="img-responsive"></a>-->
+          <a :href="note_haha_list[2].detail_url">{{ note_haha_list[2].text }}<img :src="note_haha_list[2].image_crop?note_haha_list[2].image_crop:note_haha_list[2].image" class="hxjx-sidebar img-responsive"></a>
         </div>
         <div class="col-md-6">
-          4
-          <!--<a><img src="{{ note_jx.3.image }}" class="img-responsive"></a>-->
+          <a :href="note_haha_list[3].detail_url">{{ note_haha_list[3].text }}<img :src="note_haha_list[3].image_crop?note_haha_list[3].image_crop:note_haha_list[3].image" class="hxjx-sidebar img-responsive"></a>
         </div>
       </div>
     </div>
@@ -37,6 +33,13 @@
     margin: 10px 0;
   }
 
+  .hxjx div {
+    line-height: 35px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   .hxjx-title {
     background-color: #d43f3a;
     padding: 2px 5px;
@@ -44,14 +47,19 @@
     letter-spacing: 1px;
     color: white;
   }
+
+  .hxjx-sidebar {
+    height: 150px;
+    width: 100%;
+  }
 </style>
 <script>
     export default {
       name: 'SideBar',
       data: function () {
         return {
-          is_login: false
-//          user: {}
+          is_login: false,
+          note_haha_list: [{detail_url: ''}, {detail_url: ''}, {detail_url: ''}, {detail_url: ''}]
         }
       },
       methods: {
@@ -71,10 +79,22 @@
               }
             }
           )
+        },
+        get_note_haha_list: function () {
+          let url = `${this.GLOBAL.api}/api/note_jx/`
+          let this_ = this
+          this_.$axios.get(url).then(
+            function (response) {
+              if (response.data.hasOwnProperty('note_haha_list')) {
+                this_.note_haha_list = response.data.note_haha_list
+              }
+            }
+          )
         }
       },
       created: function () {
         this.GLOBAL.debug('sidebar created')
+        this.get_note_haha_list()
 //        let this_ = this
 //        this.Bus.$on('loginEvent', (isLogin, user) => {
 //          this_.is_login = isLogin
