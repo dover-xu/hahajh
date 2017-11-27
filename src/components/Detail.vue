@@ -210,9 +210,10 @@
     </div>
   </div>
 </template>
-<style scoped="scoped">
-  @import '/static/focus/css/comment.css';
-</style>
+<!--<style scoped="scoped">-->
+  <!--@import '/static/focus/css/comment.css';-->
+<!--</style>-->
+<style src="../../static/focus/css/comment.css" type="text/css"></style>
 <script>
   /* eslint-disable quotes */
 
@@ -234,7 +235,7 @@
         comments: [],
         current: 1,
         display: 5,
-        text: 'asd'
+        text: ''
       }
     },
     methods: {
