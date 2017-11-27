@@ -2,7 +2,15 @@
   /* eslint-disable no-trailing-spaces,object-property-newline */
 
   /* eslint-disable camelcase */
-  const api = 'http://119.27.181.193:8077'
+
+  const PROD_ENV = false
+
+  let api
+  if (PROD_ENV) {
+    api = 'http://119.27.181.193:8077'
+  } else {
+    api = 'http://119.27.181.193:8087'
+  }
 
   let isDebug = true
   let debug = function (info) {

@@ -49,12 +49,12 @@
     </div>
   </div>
 </template>
-<style scoped="scoped">
-  @import '/static/manager/css/common.css';
-  @import '/static/manager/css/reset.css';
-
-</style>
-
+<!--<style scoped="scoped">-->
+  <!--@import "/static/manager/css/common.css";-->
+  <!--@import "/static/manager/css/reset.css";-->
+<!--</style>-->
+<style src="../../static/manager/css/common.css"></style>
+<style src="../../static/manager/css/reset.css"></style>
 <script>
   export default {
     data: function () {
