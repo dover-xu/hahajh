@@ -11,22 +11,18 @@
       <div class="hxjx-title">欢笑精选</div>
         <div>
           <div style="float: left; width: 50%; padding: 0 5px">
-            <img :src="note_haha_list[0].image_crop?note_haha_list[0].image_crop:note_haha_list[0].image" class="img-responsive">
-            <a :href="note_haha_list[0].detail_url" data-toggle="tooltip" :title="note_haha_list[0].text">{{ note_haha_list[0].text }}</a>
+            <a :href="note_haha_list[0].detail_url" data-toggle="tooltip" :title="note_haha_list[0].text"><img :src="note_haha_list[0].image_crop?note_haha_list[0].image_crop:note_haha_list[0].image" class="img-responsive">{{ note_haha_list[0].text }}</a>
           </div>
           <div style="float: right; width: 50%; padding: 0 5px">
-            <img :src="note_haha_list[1].image_crop?note_haha_list[1].image_crop:note_haha_list[1].image" class="img-responsive">
-            <a :href="note_haha_list[1].detail_url" data-toggle="tooltip" :title="note_haha_list[1].text">{{ note_haha_list[1].text }}</a>
+            <a :href="note_haha_list[1].detail_url" data-toggle="tooltip" :title="note_haha_list[1].text"><img :src="note_haha_list[1].image_crop?note_haha_list[1].image_crop:note_haha_list[1].image" class="img-responsive">{{ note_haha_list[1].text }}</a>
           </div>
         </div>
         <div>
           <div style="float: left; width: 50%; padding: 0 5px">
-            <img :src="note_haha_list[2].image_crop?note_haha_list[2].image_crop:note_haha_list[2].image" class="img-responsive">
-            <a :href="note_haha_list[2].detail_url" data-toggle="tooltip" :title="note_haha_list[2].text">{{ note_haha_list[2].text }}</a>
+            <a :href="note_haha_list[2].detail_url" data-toggle="tooltip" :title="note_haha_list[2].text"><img :src="note_haha_list[2].image_crop?note_haha_list[2].image_crop:note_haha_list[2].image" class="img-responsive">{{ note_haha_list[2].text }}</a>
           </div>
           <div style="float: right; width: 50%; padding: 0 5px">
-            <img :src="note_haha_list[3].image_crop?note_haha_list[3].image_crop:note_haha_list[3].image" class="img-responsive">
-            <a :href="note_haha_list[3].detail_url" data-toggle="tooltip" :title="note_haha_list[3].text">{{ note_haha_list[3].text }}</a>
+            <a :href="note_haha_list[3].detail_url" data-toggle="tooltip" :title="note_haha_list[3].text"><img :src="note_haha_list[3].image_crop?note_haha_list[3].image_crop:note_haha_list[3].image" class="img-responsive">{{ note_haha_list[3].text }}</a>
           </div>
         </div>
     </div>
