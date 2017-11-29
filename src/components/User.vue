@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <!-- 小屏兼容 -->
-        <div class="hidden-sm hidden-md hidden-lg main-left-s">
-          <table border="0">
+        <div class="hidden-sm hidden-md hidden-lg main-left-s" style="text-align: center">
+          <table border="0" style="margin: 0 auto">
             <tr>
               <td align="left" style="width: 80px ">
                 <div class="person-info">
@@ -16,11 +16,9 @@
                 </div>
               </td>
               <td align="left" style="width: 160px;padding-top: 8px">
-                <div class="info-name-s">user.username</div>
-                <div class="tips-name-s">user.username</div>
+                <div class="info-name-s" data-toggle="tooltip" :title="user.username">user.username</div>
                 <div class="info-score-s">积分：0</div>
-                <div class="info-signature-s">user.profile</div>
-                <div class="tips-signature-s">user.profile</div>
+                <div class="info-signature-s" data-toggle="tooltip" :title="user.profile">user.profile</div>
               </td>
               <td align="left" style="width: 40px">
                 <div class="publish-s">
@@ -135,11 +133,9 @@
                     <img :src="user.avatar" alt="头像无法显示" class="info-avatar">
                 </router-link>
             </span>
-            <span class="info-name"> {{ user.username }} </span>
-            <div class="tips-name"> {{ user.username }} </div>
+            <span class="info-name" data-toggle="tooltip" :title="user.username">{{ user.username }} </span>
             <span class="info-score">积分：0</span>
-            <span class="info-signature"> {{ user.profile }}</span>
-            <div class="tips-signature"> {{ user.profile }} </div>
+            <span class="info-signature" data-toggle="tooltip" :title="user.profile">{{ user.profile }}</span>
           </div>
           <div class="publish">
             <router-link to="/publish">
@@ -179,25 +175,6 @@
     top: 10px;
     margin-right: 10px;
   }
-  .tips-name {
-    z-index: 1;
-    display: none;
-    font-size: 15px;
-    width: 100px;
-    word-break: break-all;
-    padding: 2px;
-    position: absolute;
-    top: 30px;
-    left: 140px;
-    color: #333;
-    background-color: #f5f5f5;
-    border: solid 1px #888;
-    box-shadow: 3px 3px 3px #666;
-    border-radius: 3px;
-    /*opacity: 0.8;*/
-    /*filter: alpha(opacity=80);*/
-    /*-moz-opacity: 0.8;*/
-  }
   .info-name-s {
     word-break: break-all;
     overflow: hidden;
@@ -209,25 +186,6 @@
     /*position: absolute;*/
     /*top: 120px;*/
     margin-right: 10px;
-  }
-  .tips-name-s {
-    z-index: 1;
-    display: none;
-    font-size: 15px;
-    width: 100px;
-    word-break: break-all;
-    padding: 2px;
-    position: absolute;
-    top: 140px;
-    left: 140px;
-    color: #333;
-    background-color: #f5f5f5;
-    border: solid 1px #888;
-    box-shadow: 3px 3px 3px #666;
-    border-radius: 3px;
-    /*opacity: 0.8;*/
-    /*filter: alpha(opacity=80);*/
-    /*-moz-opacity: 0.8;*/
   }
   .info-score {
     color: #888;
@@ -264,44 +222,6 @@
     /*position: absolute;*/
     margin-right: 10px;
     /*top: 170px;*/
-  }
-  .tips-signature {
-    z-index: 1;
-    display: none;
-    font-size: 12px;
-    width: 100px;
-    word-break: break-all;
-    padding: 2px;
-    position: absolute;
-    top: 110px;
-    left: 140px;
-    color: #333;
-    background-color: #f5f5f5;
-    border: solid 1px #888;
-    box-shadow: 3px 3px 3px #666;
-    border-radius: 3px;
-    /*opacity: 0.9;*/
-    /*filter: alpha(opacity=90);*/
-    /*-moz-opacity: 0.9;*/
-  }
-  .tips-signature-s {
-    z-index: 1;
-    display: none;
-    font-size: 12px;
-    width: 100px;
-    word-break: break-all;
-    padding: 2px;
-    position: absolute;
-    top: 200px;
-    left: 140px;
-    color: #333;
-    background-color: #f5f5f5;
-    border: solid 1px #888;
-    box-shadow: 3px 3px 3px #666;
-    border-radius: 3px;
-    /*opacity: 0.9;*/
-    /*filter: alpha(opacity=90);*/
-    /*-moz-opacity: 0.9;*/
   }
 </style>
 <script>
