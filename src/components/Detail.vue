@@ -62,7 +62,7 @@
           <div id="qq">
             <p style="text-align: left">评论({{ note.comment_str }})</p>
             <!--<div class="message" contentEditable='true'></div>-->
-            <textarea name="edit_text" id="edit_text" class="message" v-model="text" title="edit_text"></textarea>
+            <textarea name="edit_text" id="edit_text" class="message" v-model="text" title="edit_text" style="resize: none; cursor: text" maxlength="200"></textarea>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
               <span class='submit' @click="push">发表</span>
@@ -263,6 +263,11 @@
           response => {
             this_.GLOBAL.debug(response)
           })
+        let cachedText = sessionStorage.getItem('text')
+        if (cachedText != null) {
+          this_.text = cachedText
+          sessionStorage.removeItem('text')
+        }
       },
       push: function () {
         if (this.is_login) {
@@ -276,8 +281,10 @@
               this_.$router.go(0)
             }
           )
+          sessionStorage.removeItem('text')
         } else {
-          location.href = "/manager/login/?url=/detail_" + this.note.id
+          sessionStorage.setItem('text', this.text)
+          location.href = "/login"
         }
       }
     },
