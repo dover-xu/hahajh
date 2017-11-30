@@ -43,7 +43,7 @@
             </div>
             <div class="my-input">
               <!--<label for="intro">简介：</label>-->
-              <textarea v-model="text_area" id="text_area" title="text"></textarea>
+              <textarea v-model="text_area" id="text_area" title="text" style="resize: none; cursor: text"></textarea>
             </div>
             <button type="button" @click="edit">我要发布</button>
           </div>

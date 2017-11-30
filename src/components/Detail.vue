@@ -62,7 +62,10 @@
           <div id="qq">
             <p style="text-align: left">评论({{ note.comment_str }})</p>
             <!--<div class="message" contentEditable='true'></div>-->
-            <textarea name="edit_text" id="edit_text" class="message" v-model="text" title="edit_text" style="resize: none; cursor: text" maxlength="200"></textarea>
+            <div style="color: red; text-align: left; margin-bottom: 5px">{{ error_msg }}</div>
+            <textarea name="edit_text" id="edit_text" class="message" v-model="text"
+                      title="edit_text" style="resize: none; cursor: text"
+                      maxlength="200" placeholder="评论不超过200字" @input="text_change"></textarea>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
               <span class='submit' @click="push">发表</span>
@@ -235,6 +238,7 @@
         comments: [],
         current: 1,
         display: 5,
+        error_msg: '',
         text: ''
       }
     },
@@ -270,6 +274,10 @@
         }
       },
       push: function () {
+        if (this.text === '') {
+          this.error_msg = '评论不能为空'
+          return
+        }
         if (this.is_login) {
           let this_ = this
           let url = `${this.GLOBAL.api}/api/a-c/`
@@ -286,6 +294,9 @@
           sessionStorage.setItem('text', this.text)
           location.href = "/login"
         }
+      },
+      text_change: function () {
+        this.error_msg = ''
       }
     },
     praise_tread_share: function (note, action) {

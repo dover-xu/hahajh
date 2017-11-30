@@ -71,6 +71,7 @@
                 window.location.href = '/publish'  // 刷新标题栏
 //                this_.$router.push('/publish')
               } else {
+                this_.$router.push('/publish')
                 window.location.href = '/login'
               }
             }
