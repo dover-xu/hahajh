@@ -43,7 +43,7 @@
             </div>
             <div class="my-input">
               <!--<label for="intro">简介：</label>-->
-              <textarea v-model="text_area" id="text_area" title="text" style="resize: none; cursor: text"></textarea>
+              <textarea v-model="text_area" id="text_area" title="说点什么呢。。。" style="resize: none; cursor: text" @blur="text_change"></textarea>
             </div>
             <button type="button" @click="edit">我要发布</button>
           </div>
@@ -145,6 +145,7 @@
               this_.$router.go(0)
             }
           })
+        sessionStorage.removeItem('publish_cache_text')
       },
       // 模拟触发click事件
       setPic () {
@@ -163,10 +164,18 @@
       /*  导航栏切换  */
       tab_sw: function (index) {
         this.tab_current = index
+      },
+      text_change: function () {
+        sessionStorage.setItem('publish_cache_text', this.text_area)
       }
     },
     created: function () {
       this.GLOBAL.debug('publish created')
+      let cachedText = sessionStorage.getItem('publish_cache_text')
+      if (cachedText != null) {
+        this.text_area = cachedText
+        sessionStorage.removeItem('publish_cache_text')
+      }
     },
     destroyed: function () {
     }

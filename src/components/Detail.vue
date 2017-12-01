@@ -271,10 +271,10 @@
           response => {
             this_.GLOBAL.debug(response)
           })
-        let cachedText = sessionStorage.getItem('text')
+        let cachedText = sessionStorage.getItem('comment_cache_text')
         if (cachedText != null) {
           this_.text = cachedText
-          sessionStorage.removeItem('text')
+          sessionStorage.removeItem('comment_cache_text')
         }
       },
       push: function () {
@@ -293,9 +293,9 @@
               this_.$router.go(0)
             }
           )
-          sessionStorage.removeItem('text')
+          sessionStorage.removeItem('comment_cache_text')
         } else {
-          sessionStorage.setItem('text', this.text)
+          sessionStorage.setItem('comment_cache_text', this.text)
           location.href = "/login"
         }
       },

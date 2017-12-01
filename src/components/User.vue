@@ -130,7 +130,7 @@
           <div style="text-align: left">
             <span style="">
                 <router-link to="/setting">
-                    <img :src="user.avatar" alt="头像无法显示" class="info-avatar">
+                    <img :src="user.avatar" alt="头像无法显示" class="info-avatar" data-toggle="tooltip" title="修改个人信息">
                 </router-link>
             </span>
             <span class="info-name" data-toggle="tooltip" :title="user.username">{{ user.username }} </span>
