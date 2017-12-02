@@ -62,7 +62,7 @@
           <div id="qq">
             <div>
               <p style="text-align: left; float: left;">评论({{ note.comment_str }})</p>
-              <p style="text-align: right; float: right">您还可以输入{{ commentLeftChar }}字</p>
+              <p style="text-align: right; float: right">{{text.length}}/{{200}}字</p>
             </div>
             <!--<div class="message" contentEditable='true'></div>-->
             <div style="color: red; text-align: left; margin-bottom: 5px">{{ error_msg }}</div>
@@ -242,7 +242,6 @@
         current: 1,
         display: 5,
         error_msg: '',
-        commentLeftChar: 200,
         text: ''
       }
     },
@@ -301,7 +300,6 @@
       },
       text_change: function () {
         this.error_msg = ''
-        this.commentLeftChar = 200 - this.text.length
       }
     },
     praise_tread_share: function (note, action) {

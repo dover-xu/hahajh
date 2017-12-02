@@ -289,6 +289,9 @@
         this.$axios.post(url, params).then(
           response => {
             this_.GLOBAL.debug(response)
+            if (response.data.is_success) {
+              this_.$router.go(0)
+            }
           }
         )
       }
