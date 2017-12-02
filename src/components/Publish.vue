@@ -43,8 +43,9 @@
             </div>
             <div class="my-input">
               <!--<label for="intro">简介：</label>-->
-              <textarea v-model="text_area" id="text_area" title="说点什么呢。。。" style="resize: none; cursor: text" @blur="text_change"></textarea>
+              <textarea v-model="text_area" id="text_area" title="说点什么呢。。。" style="resize: none; cursor: text" @input="textarea_input" @blur="textarea_blur"></textarea>
             </div>
+            <div style="color: red; text-align: center">{{ error_msg }}</div>
             <button type="button" @click="edit">我要发布</button>
           </div>
         </div>
@@ -122,12 +123,19 @@
     data: function () {
       return {
         picture: '/static/focus/images/test_img1.png',
+        init_picture: '/static/focus/images/test_img1.png',
         text_area: '说点什么呢。。。',
-        tab_current: 0
+        tab_current: 0,
+        error_msg: ''
       }
     },
     methods: {
       edit () {
+        if ((this.tab_current === 0 && this.picture === this.init_picture && this.text_area === '') ||
+          (this.tab_current === 1 && this.text_area === '')) {
+          this.error_msg = '内容不能为空'
+          return
+        }
         let formData = new FormData()
         let url = `${this.GLOBAL.api}/api/publish/`
         let this_ = this
@@ -164,9 +172,14 @@
       /*  导航栏切换  */
       tab_sw: function (index) {
         this.tab_current = index
+        this.error_msg = ''
+        this.text_area = '说点什么呢。。。'
       },
-      text_change: function () {
+      textarea_blur: function () {
         sessionStorage.setItem('publish_cache_text', this.text_area)
+      },
+      textarea_input: function () {
+        this.error_msg = ''
       }
     },
     created: function () {

@@ -60,14 +60,14 @@
             </ul>
           </div>
           <div id="qq">
+            <div style="color: red; text-align: left">{{ error_msg }}</div>
             <div>
               <p style="text-align: left; float: left;">评论({{ note.comment_str }})</p>
               <p style="text-align: right; float: right">{{text.length}}/{{200}}字</p>
             </div>
             <!--<div class="message" contentEditable='true'></div>-->
-            <div style="color: red; text-align: left; margin-bottom: 5px">{{ error_msg }}</div>
             <textarea name="edit_text" id="edit_text" class="message" v-model="text"
-                      title="edit_text" style="resize: none; cursor: text"
+                      style="resize: none; cursor: text"
                       maxlength="200" placeholder="评论不超过200字" @input="text_change"></textarea>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
