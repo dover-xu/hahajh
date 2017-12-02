@@ -265,7 +265,7 @@
             this_.total = response.data.total
             this_.display = response.data.display
             this_.current = response.data.current
-            console.log(response)
+            this_.GLOBAL.debug(response)
           }).catch(
           response => {
             this_.GLOBAL.debug(response)

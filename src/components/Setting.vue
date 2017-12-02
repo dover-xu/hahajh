@@ -38,7 +38,7 @@
             <div class="pic">
               <div>预览</div>
               <div class="img">
-                <img :src="picture" @click="setPic" data-toggle="tooltip" title="修改头像">
+                <img :src="picture" @click="setPic">
                 <span>选择</span>
               </div>
               <input type="file" name="pic" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="picInput">
@@ -48,22 +48,22 @@
                 <td align="right" style="color:#888;width:200px"><label>用户名</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px">
-                  <input type="text" v-model="user.username" title="修改用户名" style="width: 135px"/>
+                  <input type="text" v-model="user.username" style="width: 135px"/>
                 </td>
               </tr>
               <tr>
                 <td align="right" style="color:#888;width:200px"><label>性别</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px">
-                  <input type="radio" value="m" title="修改性别" :checked="{checked:user.sex==='m'}" v-model="user.sex" style="border: none"/> 男
-                  <input type="radio" value="f" title="修改性别" :checked="{checked:user.sex==='f'}" v-model="user.sex" style="border: none"/> 女
+                  <input type="radio" value="m" :checked="{checked:user.sex==='m'}" v-model="user.sex" style="border: none"/> 男
+                  <input type="radio" value="f" :checked="{checked:user.sex==='f'}" v-model="user.sex" style="border: none"/> 女
                 </td>
               </tr>
               <tr>
                 <td align="right" style="color:#888;width:200px;padding: 0"><label>个性签名</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px;padding: 0">
-                  <textarea v-model="user.profile" title="修改个性签名" style="width: 135px;height: 100px;padding: 4px; resize: none; cursor: text"></textarea>
+                  <textarea v-model="user.profile" style="width: 135px;height: 100px;padding: 4px; resize: none; cursor: text"></textarea>
                 </td>
               </tr>
             </table>
