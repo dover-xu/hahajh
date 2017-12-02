@@ -122,6 +122,7 @@
     name: 'Publish',
     data: function () {
       return {
+        is_login: false,
         picture: '/static/focus/images/test_img1.png',
         init_picture: '/static/focus/images/test_img1.png',
         text_area: '',
@@ -131,6 +132,11 @@
     },
     methods: {
       edit () {
+        if (!this.is_login) {
+          sessionStorage.setItem('publish_cache_text', this.text_area)
+          location.href = '/login'
+          return
+        }
         if ((this.tab_current === 0 && this.picture === this.init_picture && this.text_area === '') ||
           (this.tab_current === 1 && this.text_area === '')) {
           this.error_msg = '内容不能为空'
@@ -150,10 +156,10 @@
         }).then(
           function (response) {
             if (response.data.hasOwnProperty('is_success') && response.data.is_success === true) {
+              sessionStorage.removeItem('publish_cache_text')
               this_.$router.go(0)
             }
           })
-        sessionStorage.removeItem('publish_cache_text')
       },
       // 模拟触发click事件
       setPic () {
@@ -183,6 +189,8 @@
     },
     created: function () {
       this.GLOBAL.debug('publish created')
+      let userState = this.GLOBAL.update_user_state(this)
+      this.is_login = userState.is_login
       let cachedText = sessionStorage.getItem('publish_cache_text')
       if (cachedText != null) {
         this.text_area = cachedText

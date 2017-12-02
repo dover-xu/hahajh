@@ -71,7 +71,6 @@
           'current': this.current,
           'display': this.display
         })
-
         this.$axios.post(url, params).then(
           response => {
             this_.user = response.data.user
