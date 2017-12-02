@@ -43,7 +43,7 @@
             </div>
             <div class="my-input">
               <!--<label for="intro">简介：</label>-->
-              <textarea v-model="text_area" id="text_area" title="说点什么呢。。。" style="resize: none; cursor: text" @input="textarea_input" @blur="textarea_blur"></textarea>
+              <textarea v-model="text_area" id="text_area" placeholder="说点什么呢。。。" style="resize: none; cursor: text" @input="textarea_input" @blur="textarea_blur"></textarea>
             </div>
             <div style="color: red; text-align: center">{{ error_msg }}</div>
             <button type="button" @click="edit">我要发布</button>
@@ -124,7 +124,7 @@
       return {
         picture: '/static/focus/images/test_img1.png',
         init_picture: '/static/focus/images/test_img1.png',
-        text_area: '说点什么呢。。。',
+        text_area: '',
         tab_current: 0,
         error_msg: ''
       }
@@ -173,7 +173,6 @@
       tab_sw: function (index) {
         this.tab_current = index
         this.error_msg = ''
-        this.text_area = '说点什么呢。。。'
       },
       textarea_blur: function () {
         sessionStorage.setItem('publish_cache_text', this.text_area)
