@@ -255,7 +255,7 @@
     },
     methods: {
       update_user_state: function () {
-        let url = `${this.GLOBAL.api}/manager/user_state/`
+        let url = `${this.GLOBAL.api}/manager/user-state/`
         let this_ = this
         this_.$axios.get(url).then(
           function (response) {

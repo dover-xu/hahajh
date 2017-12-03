@@ -281,7 +281,7 @@
       },
       /*  删帖  */
       del_note: function (id) {
-        let url = `${this.GLOBAL.api}/api/del/`
+        let url = `${this.GLOBAL.api}/api/del-n-c/`
         let this_ = this
         let params = JSON.stringify({
           'note_id': id

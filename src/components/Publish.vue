@@ -189,8 +189,10 @@
     },
     created: function () {
       this.GLOBAL.debug('publish created')
-      let userState = this.GLOBAL.update_user_state(this)
-      this.is_login = userState.is_login
+      let this_ = this
+      this.GLOBAL.update_user_state(this, function (userState) {
+        this_.is_login = userState.is_login
+      })
       let cachedText = sessionStorage.getItem('publish_cache_text')
       if (cachedText != null) {
         this.text_area = cachedText

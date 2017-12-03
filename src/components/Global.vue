@@ -40,9 +40,9 @@
         }
       )
     },
-    update_user_state: function (Vue) {
-      let url = `${api}/manager/user_state/`
-      return Vue.$axios.get(url).then(
+    update_user_state: function (Vue, resolve) {
+      let url = `${api}/manager/user-state/`
+      Vue.$axios.get(url).then(
         function (response) {
           let is_login, user
           if (response.data.hasOwnProperty('is_login')) {
@@ -51,7 +51,7 @@
           if (response.data.hasOwnProperty('user')) {
             user = response.data.user
           }
-          return {'is_login': is_login, 'user': user}
+          resolve({'is_login': is_login, 'user': user})
         }
       )
     }

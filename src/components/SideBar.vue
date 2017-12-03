@@ -60,7 +60,7 @@
       },
       methods: {
         check_user_state: function () {
-          let url = `${this.GLOBAL.api}/manager/user_state/`
+          let url = `${this.GLOBAL.api}/manager/user-state/`
           let this_ = this
           this_.$axios.get(url).then(
             function (response) {
@@ -69,9 +69,7 @@
               }
               if (this_.is_login === true) {
                 window.location.href = '/publish'  // 刷新标题栏
-//                this_.$router.push('/publish')
               } else {
-//                this_.$router.push('/publish')
                 sessionStorage.setItem('last_herf', '/publish')
                 window.location.href = '/login'
               }
