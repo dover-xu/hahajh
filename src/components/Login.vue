@@ -84,9 +84,15 @@
             if (response.data.hasOwnProperty('is_login')) {
               if (response.data.is_login === true) {
                 this_.is_login = true
-//                this_.$router.push({path: '/'})
-                this_.$router.go(-1)
                 this_.Bus.$emit('loginEvent', this_.is_login, this_.user)
+
+                let lastHref = sessionStorage.getItem('last_herf')
+                if (lastHref != null) {
+                  sessionStorage.removeItem('last_herf')
+                  location.href = lastHref
+                } else {
+                  this_.$router.go(-1)
+                }
               }
             }
           }).catch(

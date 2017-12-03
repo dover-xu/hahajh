@@ -71,7 +71,8 @@
                 window.location.href = '/publish'  // 刷新标题栏
 //                this_.$router.push('/publish')
               } else {
-                this_.$router.push('/publish')
+//                this_.$router.push('/publish')
+                sessionStorage.setItem('last_herf', '/publish')
                 window.location.href = '/login'
               }
             }
