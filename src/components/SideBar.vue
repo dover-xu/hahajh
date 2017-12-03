@@ -77,7 +77,7 @@
           )
         },
         get_note_haha_list: function () {
-          let url = `${this.GLOBAL.api}/api/note_jx/`
+          let url = `${this.GLOBAL.api}/api/note-jx/`
           let this_ = this
           this_.$axios.get(url).then(
             function (response) {
