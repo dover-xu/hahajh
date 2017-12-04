@@ -17,18 +17,19 @@ import Bus from '@/components/bus.js'
 // var csrftoken = getCookie('csrftoken')
 // 带cookie请求
 axios.defaults.withCredentials = true
-// axios.interceptors.request.use(
-//   config => {
-//     console.log(csrftoken)
-//     if (!csrfSafeMethod(config.method) && csrftoken) {
-//       config.headers['X-CSRFToken'] = csrftoken
-//     }
-//     return config
-//   },
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
+axios.interceptors.request.use(
+  config => {
+    // console.log(csrftoken)
+    // if (!csrfSafeMethod(config.method) && csrftoken) {
+    //   config.headers['X-CSRFToken'] = csrftoken
+    // }
+    config.headers['Content-Type'] = 'application/json;charset=utf-8'
+    return config
+  }
+  // error => {
+  //   return Promise.reject(error)
+  // }
+)
 
 Vue.prototype.$axios = axios
 Vue.prototype.Bus = Bus

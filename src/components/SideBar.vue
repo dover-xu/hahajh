@@ -60,7 +60,7 @@
       },
       methods: {
         check_user_state: function () {
-          let url = `${this.GLOBAL.api}/manager/user_state/`
+          let url = `${this.GLOBAL.api}/manager/user-state/`
           let this_ = this
           this_.$axios.get(url).then(
             function (response) {
@@ -69,15 +69,15 @@
               }
               if (this_.is_login === true) {
                 window.location.href = '/publish'  // 刷新标题栏
-//                this_.$router.push('/publish')
               } else {
+                sessionStorage.setItem('last_herf', '/publish')
                 window.location.href = '/login'
               }
             }
           )
         },
         get_note_haha_list: function () {
-          let url = `${this.GLOBAL.api}/api/note_jx/`
+          let url = `${this.GLOBAL.api}/api/note-jx/`
           let this_ = this
           this_.$axios.get(url).then(
             function (response) {

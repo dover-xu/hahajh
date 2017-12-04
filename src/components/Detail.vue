@@ -60,9 +60,15 @@
             </ul>
           </div>
           <div id="qq">
-            <p style="text-align: left">评论({{ note.comment_str }})</p>
+            <div style="color: red; text-align: left">{{ error_msg }}</div>
+            <div>
+              <p style="text-align: left; float: left;">评论({{ note.comment_str }})</p>
+              <p style="text-align: right; float: right">{{text.length}}/{{200}}字</p>
+            </div>
             <!--<div class="message" contentEditable='true'></div>-->
-            <textarea name="edit_text" id="edit_text" class="message" v-model="text" title="edit_text" style="resize: none; cursor: text" maxlength="200"></textarea>
+            <textarea name="edit_text" id="edit_text" class="message" v-model="text"
+                      style="resize: none; cursor: text"
+                      maxlength="200" placeholder="评论不超过200字" @input="text_change"></textarea>
             <div class="But">
               <img src="/static/focus/images/comment/bba_thumb.gif" class='bq'/>
               <span class='submit' @click="push">发表</span>
@@ -235,6 +241,7 @@
         comments: [],
         current: 1,
         display: 5,
+        error_msg: '',
         text: ''
       }
     },
@@ -258,18 +265,22 @@
             this_.total = response.data.total
             this_.display = response.data.display
             this_.current = response.data.current
-            console.log(response)
+            this_.GLOBAL.debug(response)
           }).catch(
           response => {
             this_.GLOBAL.debug(response)
           })
-        let cachedText = sessionStorage.getItem('text')
+        let cachedText = sessionStorage.getItem('comment_cache_text')
         if (cachedText != null) {
           this_.text = cachedText
-          sessionStorage.removeItem('text')
+          sessionStorage.removeItem('comment_cache_text')
         }
       },
       push: function () {
+        if (this.text === '') {
+          this.error_msg = '评论不能为空'
+          return
+        }
         if (this.is_login) {
           let this_ = this
           let url = `${this.GLOBAL.api}/api/a-c/`
@@ -281,11 +292,14 @@
               this_.$router.go(0)
             }
           )
-          sessionStorage.removeItem('text')
+          sessionStorage.removeItem('comment_cache_text')
         } else {
-          sessionStorage.setItem('text', this.text)
+          sessionStorage.setItem('comment_cache_text', this.text)
           location.href = "/login"
         }
+      },
+      text_change: function () {
+        this.error_msg = ''
       }
     },
     praise_tread_share: function (note, action) {

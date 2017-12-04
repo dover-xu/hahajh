@@ -130,7 +130,7 @@
           <div style="text-align: left">
             <span style="">
                 <router-link to="/setting">
-                    <img :src="user.avatar" alt="头像无法显示" class="info-avatar">
+                    <img :src="user.avatar" alt="头像无法显示" class="info-avatar" data-toggle="tooltip" title="修改个人信息">
                 </router-link>
             </span>
             <span class="info-name" data-toggle="tooltip" :title="user.username">{{ user.username }} </span>
@@ -281,7 +281,7 @@
       },
       /*  删帖  */
       del_note: function (id) {
-        let url = `${this.GLOBAL.api}/api/del/`
+        let url = `${this.GLOBAL.api}/api/del-n-c/`
         let this_ = this
         let params = JSON.stringify({
           'note_id': id
@@ -289,6 +289,9 @@
         this.$axios.post(url, params).then(
           response => {
             this_.GLOBAL.debug(response)
+            if (response.data.is_success) {
+              this_.$router.go(0)
+            }
           }
         )
       }

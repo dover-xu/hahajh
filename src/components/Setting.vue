@@ -48,22 +48,22 @@
                 <td align="right" style="color:#888;width:200px"><label>用户名</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px">
-                  <input type="text" v-model="user.username" title="username" style="width: 135px"/>
+                  <input type="text" v-model="user.username" style="width: 135px"/>
                 </td>
               </tr>
               <tr>
                 <td align="right" style="color:#888;width:200px"><label>性别</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px">
-                  <input type="radio" value="m" title="male" :checked="{checked:user.sex==='m'}" v-model="user.sex" style="border: none"/> 男
-                  <input type="radio" value="f" title="female" :checked="{checked:user.sex==='f'}" v-model="user.sex" style="border: none"/> 女
+                  <input type="radio" value="m" :checked="{checked:user.sex==='m'}" v-model="user.sex" style="border: none"/> 男
+                  <input type="radio" value="f" :checked="{checked:user.sex==='f'}" v-model="user.sex" style="border: none"/> 女
                 </td>
               </tr>
               <tr>
                 <td align="right" style="color:#888;width:200px;padding: 0"><label>个性签名</label></td>
                 <td style="width: 10px"></td>
                 <td align="left" style="width: 200px;padding: 0">
-                  <textarea v-model="user.profile" title="profile" style="width: 135px;height: 100px;padding: 4px"></textarea>
+                  <textarea v-model="user.profile" style="width: 135px;height: 100px;padding: 4px; resize: none; cursor: text"></textarea>
                 </td>
               </tr>
             </table>
@@ -255,7 +255,7 @@
     },
     methods: {
       update_user_state: function () {
-        let url = `${this.GLOBAL.api}/manager/user_state/`
+        let url = `${this.GLOBAL.api}/manager/user-state/`
         let this_ = this
         this_.$axios.get(url).then(
           function (response) {
