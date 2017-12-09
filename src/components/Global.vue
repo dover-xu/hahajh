@@ -8,9 +8,9 @@
 
   let api
   if (PROD_ENV) {
-    api = 'http://119.27.181.193:8077'
+    api = 'http://www.hahajh.com'
   } else {
-    api = 'http://119.27.181.193:8087'
+    api = 'http://www.hahajh.com:8800'
   }
 
   let isDebug = true
