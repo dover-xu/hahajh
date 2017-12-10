@@ -300,10 +300,10 @@
       },
       text_change: function () {
         this.error_msg = ''
+      },
+      praise_tread_share: function (note, action) {
+        this.GLOBAL.praise_tread_share(this, note, action)
       }
-    },
-    praise_tread_share: function (note, action) {
-      this.GLOBAL.praise_tread_share(this, note, action)
     },
     created: function () {
       this.GLOBAL.debug('Detail created')
