@@ -17,7 +17,7 @@
                 </div>
                 <!-- 发布内容 -->
                 <div class="cont">
-                  <div v-if="note.text" class="c-text">{{ note.text }}</div>
+                  <div v-if="note.text" class="c-text disable-select">{{ note.text }}</div>
                   <div v-if="note.image" class="content-img">
                     <img :src="note.image" alt="图片无法显示"
                          class="img-responsive center-block" width="100%">
@@ -216,10 +216,17 @@
     </div>
   </div>
 </template>
-<!--<style scoped="scoped">-->
-  <!--@import '/static/focus/css/comment.css';-->
-<!--</style>-->
-<style src="../../static/focus/css/comment.css" type="text/css"></style>
+<style scoped="scoped">
+  @import '/static/focus/css/comment.css';
+  .disable-select {
+    -moz-user-select:none; /*火狐*/
+    -webkit-user-select:none; /*webkit浏览器*/
+    -ms-user-select:none; /*IE10*/
+    -khtml-user-select:none; /*早期浏览器*/
+    user-select:none;
+  }
+</style>
+<!--<style scoped src="../../static/focus/css/comment.css" type="text/css"></style>-->
 <script>
   /* eslint-disable quotes */
 

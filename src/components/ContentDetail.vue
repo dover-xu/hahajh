@@ -6,7 +6,7 @@
           <!-- 用户信息 -->
           <div class="u-bar">
             <span class="pull-left">
-              <a href="#">
+              <a>
                 <img :src="note.user.avatar" alt="头像无法显示" class="u-img">
               </a>
             </span>
@@ -93,5 +93,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
