@@ -10,7 +10,7 @@
   if (PROD_ENV) {
     api = 'http://www.hahajh.com'
   } else {
-    api = 'http://www.hahajh.com:8800'
+    api = 'http://int.hahajh.com'
   }
 
   let isDebug = true
