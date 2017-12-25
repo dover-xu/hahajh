@@ -1,16 +1,23 @@
 <script>
-  /* eslint-disable no-trailing-spaces,object-property-newline */
+  /* eslint-disable no-trailing-spaces,object-property-newline,no-unused-vars */
 
   /* eslint-disable camelcase */
 
-  const PROD_ENV = false
-//  const PROD_ENV = true
+//  const PROD_ENV = false
+  const PROD_ENV = true
 
   let api
+  let set_baidu_tongji
   if (PROD_ENV) {
     api = 'http://www.hahajh.com'
+    set_baidu_tongji = function (set_url_func) {
+      set_url_func('https://hm.baidu.com/hm.js?6483835bcf6361da3ab555c65c6a541c')
+    }
   } else {
     api = 'http://int.hahajh.com'
+    set_baidu_tongji = function (set_url_func) {
+      set_url_func('https://hm.baidu.com/hm.js?c9546c19005890b7ff5010c5e05918d5')
+    }
   }
 
   let isDebug = true
@@ -19,7 +26,7 @@
   }
 
   export default {
-    api, debug,
+    api, set_baidu_tongji, debug,
     praise_tread_share: function (Vue, note, action) {
       let url = `${api}/api/a-p-t-s/`
       let jsonData = JSON.stringify({'note_id': note.id, 'action': action})

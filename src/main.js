@@ -8,6 +8,16 @@ import global_ from '@/components/Global'
 import axios from 'axios'
 import Bus from '@/components/bus.js'
 
+/* eslint-disable quotes,semi,no-undef,camelcase */
+(function () {
+  var hm = document.createElement("script");
+  global_.set_baidu_tongji(function (url) {
+    hm.src = url
+  })
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+
 // import {getCookie} from './util/util.js'
 //
 // function csrfSafeMethod (method) {
